@@ -108,6 +108,7 @@ body.touch #fpsTag{display:none}
 .bigtitle em{font-style:normal;color:#fff;-webkit-text-stroke:2px #000}
 .bigtitle small{display:block;font-family:'Noto Sans JP';font-size:13px;color:#fff;background:#000;letter-spacing:5px;padding:2px 12px;transform:rotate(2deg);width:max-content;margin-top:6px}
 .l1r1{position:absolute;top:26px;font-family:'Oswald';font-weight:700;font-size:12px;background:#fff;color:#000;border:2px solid #000;border-radius:5px;padding:1px 8px;z-index:4}
+.p5keys{position:absolute;bottom:20px;left:6%;z-index:6;font-size:10px;font-weight:700;letter-spacing:2px;color:#fff;background:#000;border:2px solid #fff;padding:4px 12px;transform:skewX(-10deg);pointer-events:none}
 .p5close{position:absolute;bottom:18px;right:24px;z-index:6;cursor:pointer;background:#000;color:#fff;border:2px solid #fff;font-family:'Oswald';font-weight:700;font-size:13px;letter-spacing:2px;padding:7px 18px;transform:skewX(-10deg);pointer-events:auto}
 .p5close:hover{background:#fff;color:var(--red)}
 .p5list{position:absolute;top:110px;bottom:70px;left:6%;right:8%;overflow-y:auto;overflow-x:hidden;z-index:2;pointer-events:auto;padding:6px 10px 20px 4px}
@@ -205,20 +206,23 @@ input[type=range].p5range::-moz-range-thumb{width:13px;height:18px;background:va
 .toggle::after{content:"";position:absolute;left:3px;top:3px;width:16px;height:16px;background:#fff;transition:all .15s}
 .toggle.on{background:var(--cyan)}
 .toggle.on::after{left:33px;background:#000}
+.vaultNote{font-size:11px;line-height:1.8;color:var(--bone);background:rgba(0,0,0,.45);border:2px dashed rgba(255,255,255,.5);padding:10px 12px;margin-top:14px}
+.vaultNote b{color:var(--cyan)}
 
 #summonOverlay{position:fixed;inset:0;z-index:95;display:none;background:rgba(2,3,14,.9)}
 #summonOverlay.open{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:20px}
 #summonTitle{font-family:'Anton';font-size:clamp(28px,5vw,46px);letter-spacing:3px;transform:rotate(-3deg);text-shadow:4px 4px 0 var(--red)}
 #summonTitle small{display:block;font-family:'Noto Sans JP';font-size:12px;color:var(--gold);letter-spacing:6px;text-align:center;text-shadow:none}
-#lanes{display:flex;gap:24px;width:min(92vw,760px);flex-wrap:wrap;justify-content:center}
-.lane{flex:1;min-width:250px;min-height:220px;border:3px dashed #fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:22px;transition:all .18s;background:rgba(10,14,40,.7)}
-.lane .ico{font-size:48px;filter:drop-shadow(0 0 14px currentColor)}
-.lane h3{font-family:'Anton';font-size:21px;letter-spacing:2px}
+#lanes{display:flex;gap:20px;width:min(94vw,900px);flex-wrap:wrap;justify-content:center}
+.lane{flex:1;min-width:220px;min-height:210px;border:3px dashed #fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;transition:all .18s;background:rgba(10,14,40,.7)}
+.lane .ico{font-size:46px;filter:drop-shadow(0 0 14px currentColor)}
+.lane h3{font-family:'Anton';font-size:20px;letter-spacing:2px}
 .lane p{font-size:12px;color:var(--bone);text-align:center;letter-spacing:1px}
-.lane.html{color:var(--cyan)}.lane.audio{color:var(--magenta)}
+.lane.html{color:var(--cyan)}.lane.audio{color:var(--magenta)}.lane.image{color:var(--gold)}
 .lane.hot{border-style:solid;transform:scale(1.05) rotate(-1deg)}
 .lane.html.hot{border-color:var(--cyan);background:rgba(0,229,255,.14);box-shadow:0 0 40px rgba(0,229,255,.4)}
 .lane.audio.hot{border-color:var(--magenta);background:rgba(255,47,160,.14);box-shadow:0 0 40px rgba(255,47,160,.4)}
+.lane.image.hot{border-color:var(--gold);background:rgba(255,212,0,.14);box-shadow:0 0 40px rgba(255,212,0,.4)}
 #filePickRow{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 #summonHint{font-size:11px;color:#8a93c0;letter-spacing:2px}
 
@@ -257,7 +261,8 @@ input[type=range].p5range::-moz-range-thumb{width:13px;height:18px;background:va
  .p5desc{width:80%;right:4%;bottom:1%}
  .p5list{top:92px;left:4%;right:14%}
  #casePanel .p5list{top:150px}
- #musicPanel .p5list{top:126px}
+ #musicPanel .p5list,#galleryPanel .p5list{top:126px}
+ .p5keys{display:none}
  #menuStar{width:190px;height:190px;left:-4%}
  .menuItems{left:10%}
  #readerTitle{max-width:26vw}
@@ -285,9 +290,9 @@ input[type=range].p5range::-moz-range-thumb{width:13px;height:18px;background:va
   </div>
   <div id="zonebanner"><div class="zb"><small id="zbJP">怪盗のアジト</small><h3 id="zbName">THIEVES DEN</h3></div></div>
   <div id="mapWrap"><canvas id="minimap" width="300" height="300"></canvas><span id="mapLabel">Thieves Den</span></div>
-  <div id="prompt"><span class="ex"><i>✕</i><span id="promptEx">EXAMINE!</span></span><br><span class="act" id="promptAct">Open</span><span class="sub" id="promptSub"></span></div>
-  <div id="objective"><span class="tag">OBJECTIVE</span><div class="txt" id="objTxt">Explore the Den. Approach a glowing station and press E.</div></div>
-  <div id="hint"><b>WASD</b>MOVE <b>DRAG</b>CAMERA <b>SHIFT</b>DASH<br><b>E</b>EXAMINE <b>TAB</b>ARCHIVE <b>M</b>MUSIC <b>/</b>SEARCH <b>ESC</b>MENU</div>
+  <div id="prompt"><span class="ex"><i id="promptKey">F</i><span id="promptEx">EXAMINE!</span></span><br><span class="act" id="promptAct">Open</span><span class="sub" id="promptSub"></span></div>
+  <div id="objective"><span class="tag">OBJECTIVE</span><div class="txt" id="objTxt">Explore the Den. Approach a glowing station and press F.</div></div>
+  <div id="hint"><b>WASD</b>MOVE <b>DRAG</b>CAMERA <b>RMB</b>DASH<br><b>F</b>INTERACT <b>TAB</b>ARCHIVE <b>M</b>MUSIC <b>/</b>SEARCH <b>ESC</b>MENU</div>
   <div id="fpsTag">— FPS<br>BALANCED</div>
 </div>
 
@@ -311,7 +316,7 @@ input[type=range].p5range::-moz-range-thumb{width:13px;height:18px;background:va
     <div class="jpT">怪盗書庫 ─ 心の怪盗団</div><br>
     <button id="pressStart">▶ PRESS START</button>
   </div>
-  <div id="titleFoot">A PERSONA-STYLE 3D LIBRARY · DRAG &amp; DROP HTML + MUSIC · FAN TRIBUTE UI</div>
+  <div id="titleFoot">A PERSONA-STYLE 3D LIBRARY · HTML + MUSIC + PRINTS · YOUR VAULT SURVIVES RELOADS</div>
 </div>
 
 <!-- MENU -->
@@ -320,14 +325,14 @@ input[type=range].p5range::-moz-range-thumb{width:13px;height:18px;background:va
   <div class="menuItems">
     <button class="mitem red" data-act="case">ARCHIVE<small>怪盗ケース — HTML VOLUMES</small></button>
     <button class="mitem" data-act="music">MUSIC<small>音楽 — BGM PLAYER</small></button>
-    <button class="mitem" data-act="gallery">GALLERY<small>画廊 — POSTER WALL</small></button>
-    <button class="mitem" data-act="award">AWARD<small>勲章 — FEATS &amp; P</small></button>
-    <button class="mitem" data-act="summon">SUMMON FILES<small>召喚 — IMPORT</small></button>
-    <button class="mitem" data-act="save">SAVE<small>記録 — RECORD</small></button>
+    <button class="mitem" data-act="gallery">GALLERY<small>画廊 — YOUR PRINTS</small></button>
+    <button class="mitem" data-act="award">AWARD<small>勲章 — READING FEATS</small></button>
+    <button class="mitem" data-act="summon">SUMMON FILES<small>召喚 — HTML / AUDIO / PNG</small></button>
+    <button class="mitem" data-act="save">SAVE &amp; VAULT<small>記録 — PACK EXPORT</small></button>
     <button class="mitem" data-act="settings">CONFIG<small>設定</small></button>
     <button class="mitem" data-act="resume">RETURN TO DEN<small>戻る</small></button>
   </div>
-  <div class="menuFoot">◯ Close &nbsp;&nbsp; ✕ Confirm</div>
+  <div class="menuFoot">◯ Close &nbsp;&nbsp; ✕ Confirm &nbsp;&nbsp; W/S + Wheel navigate lists</div>
 </div></div>
 
 <!-- ARCHIVE -->
@@ -348,6 +353,7 @@ input[type=range].p5range::-moz-range-thumb{width:13px;height:18px;background:va
       <button class="dbtn gold" id="caseSummon" style="font-size:11px;padding:5px 12px">＋ SUMMON</button>
     </div>
     <div class="p5list" id="caseList" style="top:132px"></div>
+    <div class="p5keys">W/S · WHEEL — MOVE ✕ F / ENTER — READ</div>
     <button class="p5close" data-close="casePanel">◯ CLOSE</button>
   </div>
   <div class="p5desc" id="caseDesc">
@@ -382,6 +388,7 @@ input[type=range].p5range::-moz-range-thumb{width:13px;height:18px;background:va
       <span style="font-size:11px;color:#ffd9db;letter-spacing:1px;align-self:center">Drop MP3 / OGG / WAV anywhere</span>
     </div>
     <div class="p5list" id="trackList" style="top:126px"></div>
+    <div class="p5keys">W/S · WHEEL — MOVE ✕ F / ENTER — SET BGM</div>
     <button class="p5close" data-close="musicPanel">◯ CLOSE</button>
   </div>
   <div class="p5desc"><div class="dt" id="trkDescT">Details</div><div class="dd" id="trkDescD">Select a track, then ✕ to set it as the Den BGM. The procedural acid-jazz loop plays until you summon your own music.</div>
@@ -392,26 +399,32 @@ input[type=range].p5range::-moz-range-thumb{width:13px;height:18px;background:va
 <div class="panel" id="galleryPanel"><div class="dim"></div><div class="p5wrap">
   <div class="previewStage">
     <div class="thumbStrip" id="galThumbs"></div>
-    <div class="pcard" id="galCard"><canvas id="galCardCv" width="480" height="300"></canvas><span class="bought">VIEWED</span><span class="cap" id="galCardCap">—</span></div>
+    <div class="pcard" id="galCard"><canvas id="galCardCv" width="480" height="300"></canvas><span class="bought" id="galCardBadge">VIEWED</span><span class="cap" id="galCardCap">—</span></div>
     <button class="pnav prev" id="galPrev">PREV ➤</button><button class="pnav next" id="galNext">➤ NEXT</button>
   </div>
   <div class="redslab">
-    <div class="bigtitle">GALL<em>ery</em><small>画廊 — POSTERS &amp; MEMOS</small></div>
+    <div class="bigtitle">GALL<em>ery</em><small>画廊 — POSTERS &amp; YOUR PRINTS</small></div>
     <span class="l1r1" style="left:16%">L1</span><span class="l1r1" style="right:8%">R1</span>
-    <div class="p5list" id="galList"></div>
+    <div style="position:absolute;top:88px;left:6%;right:8%;display:flex;gap:6px;z-index:3;pointer-events:auto">
+      <button class="dbtn gold" id="galSummon" style="font-size:11px;padding:5px 12px">＋ ADD IMAGES</button>
+      <span style="font-size:11px;color:#ffd9db;letter-spacing:1px;align-self:center">Drop PNG / JPG anywhere — they hang on the 3D wall</span>
+    </div>
+    <div class="p5list" id="galList" style="top:126px"></div>
+    <div class="p5keys">W/S · WHEEL — MOVE ✕ F / ENTER — ZOOM</div>
     <button class="p5close" data-close="galleryPanel">◯ CLOSE</button>
   </div>
   <div class="p5desc"><div class="dt" id="galDescT">—</div><div class="dd" id="galDescD">—</div>
-    <div class="dactions"><button class="dbtn gold" id="galZoom">✕ ZOOM IN</button><button class="dbtn" id="galExport">⬇ EXPORT PNG</button></div></div>
+    <div class="dactions"><button class="dbtn gold" id="galZoom">✕ ZOOM IN</button><button class="dbtn" id="galExport">⬇ EXPORT</button><button class="dbtn" id="galDelete">DELETE</button></div></div>
 </div></div>
 
 <!-- AWARD -->
 <div class="panel" id="awardPanel"><div class="dim"></div><div class="p5wrap">
   <div class="previewStage"><div class="pcard" style="aspect-ratio:1/1;top:10%"><canvas id="awardCv" width="400" height="400"></canvas><span class="cap" id="awardCap">—</span></div></div>
   <div class="redslab">
-    <div class="bigtitle">AWA<em>rd</em><small>勲章 — PHANTOM FEATS</small></div>
+    <div class="bigtitle">AWA<em>rd</em><small>勲章 — SYNCED TO YOUR READING</small></div>
     <span class="l1r1" style="left:16%">L1</span><span class="l1r1" style="right:8%">R1</span>
     <div class="p5list" id="awardList"></div>
+    <div class="p5keys">W/S · WHEEL — MOVE PROGRESS IS LIVE</div>
     <button class="p5close" data-close="awardPanel">◯ CLOSE</button>
   </div>
   <div class="p5desc"><div class="dt" id="awDescT">Condition</div><div class="dd" id="awDescD">—</div>
@@ -443,16 +456,16 @@ input[type=range].p5range::-moz-range-thumb{width:13px;height:18px;background:va
       <div class="setRow"><label>REDUCED MOTION<small>GRAIN / SPEEDLINES OFF</small></label><div class="toggle" id="tglMotion"></div></div>
       <div class="setRow"><label>SENSITIVITY<small id="sensVal">1.0×</small></label><input type="range" class="p5range" id="sensBar" min="30" max="200" value="100" style="max-width:150px"></div>
       <div class="setRow"><label>SHOW FPS</label><div class="toggle on" id="tglFps"></div></div>
-      <div class="setRow" style="border:none"><label>DANGER ZONE<small>WIPE ARCHIVE &amp; SAVE</small></label><button class="dbtn" id="wipeBtn" style="border-color:#ff5b66;color:#ff5b66">RESET ALL</button></div>
+      <div class="setRow" style="border:none"><label>DANGER ZONE<small>WIPE VAULT &amp; SAVE</small></label><button class="dbtn" id="wipeBtn" style="border-color:#ff5b66;color:#ff5b66">RESET ALL</button></div>
     </div>
     <button class="p5close" data-close="settingsPanel">◯ CLOSE</button>
   </div>
 </div></div>
 
-<!-- SAVE -->
+<!-- SAVE & VAULT -->
 <div class="panel" id="savePanel"><div class="dim"></div><div class="p5wrap">
-  <div class="redslab" style="width:52%">
-    <div class="bigtitle">SA<em>ve</em><small>記録端末</small></div>
+  <div class="redslab" style="width:56%">
+    <div class="bigtitle">VA<em>ult</em><small>記録端末 — SAVE &amp; PACK</small></div>
     <div class="p5list" style="top:110px">
       <div style="background:#000;border:3px solid #fff;padding:16px;transform:rotate(-1deg);box-shadow:6px 6px 0 rgba(0,0,0,.5)">
         <div style="font-family:'Anton';font-size:17px;color:var(--gold);letter-spacing:2px;margin-bottom:6px">SLOT 01 — PHANTOM LOG</div>
@@ -461,6 +474,16 @@ input[type=range].p5range::-moz-range-thumb{width:13px;height:18px;background:va
       <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
         <button class="dbtn big gold" id="writeSave">✎ WRITE</button><button class="dbtn" id="loadSave">↺ LOAD</button><button class="dbtn" id="clearSave">CLEAR</button>
       </div>
+      <div style="background:#000;border:3px solid var(--cyan);padding:14px;margin-top:16px;transform:rotate(.6deg);box-shadow:6px 6px 0 rgba(0,0,0,.5)">
+        <div style="font-family:'Anton';font-size:16px;color:var(--cyan);letter-spacing:2px;margin-bottom:6px">PERSISTENT VAULT — 永久保管</div>
+        <p id="vaultInfo" style="font-size:12px;color:var(--bone);line-height:1.9">Checking vault…</p>
+        <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+          <button class="dbtn gold" id="exportPack">⬇ EXPORT PACK</button>
+          <button class="dbtn" id="importPack">⬆ IMPORT PACK</button>
+        </div>
+      </div>
+      <div class="vaultNote">Everything you summon is written <b>instantly to this browser's IndexedDB vault</b> — it survives reloads, closing the tab, and restarting the device. Netlify static hosting cannot store files server-side, so to carry the vault to another browser/device or keep an off-site backup, use <b>EXPORT PACK</b> and re-import it there.</div>
+      <input type="file" id="packInput" accept=".json,application/json" hidden>
     </div>
     <button class="p5close" data-close="savePanel">◯ CLOSE</button>
   </div>
@@ -492,13 +515,15 @@ input[type=range].p5range::-moz-range-thumb{width:13px;height:18px;background:va
 <div id="summonOverlay">
   <div id="summonTitle">SUMMONING CIRCLE<small>召喚陣 — DROP TO IMPORT</small></div>
   <div id="lanes">
-    <div class="lane html" id="laneHtml"><div class="ico">📜</div><h3>HTML DIRECTIVES</h3><p>.html / .htm — stored byte-for-byte,<br>shelved in the Archive</p></div>
+    <div class="lane html" id="laneHtml"><div class="ico">📜</div><h3>HTML DIRECTIVES</h3><p>.html / .htm — byte-for-byte,<br>shelved in the Archive</p></div>
     <div class="lane audio" id="laneAudio"><div class="ico">💿</div><h3>MUSIC TRACKS</h3><p>.mp3 / .ogg / .wav / .m4a —<br>added to the Music player</p></div>
+    <div class="lane image" id="laneImage"><div class="ico">🖼</div><h3>IMAGE PRINTS</h3><p>.png / .jpg / .webp / .gif —<br>hung on the Gallery wall</p></div>
   </div>
-  <div id="filePickRow"><button class="dbtn" id="pickHtml">BROWSE HTML…</button><button class="dbtn" id="pickAudio">BROWSE AUDIO…</button><button class="dbtn" id="summonCancel">CANCEL</button></div>
-  <div id="summonHint">DROP ANYWHERE — ROUTED AUTOMATICALLY BY TYPE</div>
+  <div id="filePickRow"><button class="dbtn" id="pickHtml">BROWSE HTML…</button><button class="dbtn" id="pickAudio">BROWSE AUDIO…</button><button class="dbtn" id="pickImage">BROWSE IMAGES…</button><button class="dbtn" id="summonCancel">CANCEL</button></div>
+  <div id="summonHint">DROP ANYWHERE — ROUTED AUTOMATICALLY · WRITTEN STRAIGHT TO THE PERSISTENT VAULT</div>
   <input type="file" id="fileHtml" accept=".html,.htm,text/html" multiple hidden>
   <input type="file" id="fileAudio" accept="audio/*,.mp3,.ogg,.wav,.m4a,.flac" multiple hidden>
+  <input type="file" id="fileImage" accept="image/*,.png,.jpg,.jpeg,.webp,.gif,.bmp,.svg" multiple hidden>
 </div>
 
 <div id="toasts"></div>
@@ -512,12 +537,13 @@ const lerp=(a,b,t)=>a+(b-a)*t;
 const isTouch=('ontouchstart' in window)||navigator.maxTouchPoints>0;
 if(isTouch)document.body.classList.add('touch');
 
-/* ---------------- IndexedDB ---------------- */
+/* ---------------- IndexedDB vault (v2: +images) ---------------- */
 let db=null;
-function openDB(){return new Promise((res,rej)=>{const rq=indexedDB.open('thievesDenDB',1);
+function openDB(){return new Promise((res,rej)=>{const rq=indexedDB.open('thievesDenDB',2);
  rq.onupgradeneeded=e=>{const d=e.target.result;
   if(!d.objectStoreNames.contains('files'))d.createObjectStore('files',{keyPath:'id'});
   if(!d.objectStoreNames.contains('audio'))d.createObjectStore('audio',{keyPath:'id'});
+  if(!d.objectStoreNames.contains('images'))d.createObjectStore('images',{keyPath:'id'});
   if(!d.objectStoreNames.contains('meta'))d.createObjectStore('meta',{keyPath:'k'});};
  rq.onsuccess=e=>{db=e.target.result;res(db)};rq.onerror=()=>rej(rq.error);});}
 function tx(s,m){return db.transaction(s,m).objectStore(s)}
@@ -527,10 +553,10 @@ function dbAll(s){return new Promise((res,rej)=>{const r=tx(s,'readonly').getAll
 function dbGet(s,k){return new Promise((res,rej)=>{const r=tx(s,'readonly').get(k);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
 
 /* ---------------- state ---------------- */
-const S={files:[],tracks:[],wingFilter:'all',sort:'shelf',query:'',caseSel:0,trkSel:0,galSel:0,awSel:0,
+const S={files:[],tracks:[],images:[],wingFilter:'all',sort:'shelf',query:'',caseSel:0,trkSel:0,galSel:0,awSel:0,
  quality:'balanced',invertY:false,reduced:false,sens:1,showFps:true,muted:false,volume:.7,
  loop:false,shuffle:false,curTrack:-1,playing:false,readerFile:null,readerZoom:1,
- loreFound:new Set(),awards:new Set(),panelOpen:null,started:false,coins:0,
+ loreFound:new Set(),awards:new Set(),panelOpen:null,started:false,coins:0,persistGranted:false,
  stats:{reads:0,dashes:0,summons:0,plays:0},lastDeleted:null};
 const WINGS={scenario:{c:0xff2438,css:'#ff2438',jp:'シナリオ',label:'SCENARIO'},
  personal:{c:0x7b4dff,css:'#7b4dff',jp:'個人',label:'PERSONAL'},
@@ -564,7 +590,8 @@ const SEEDS=[
   <label class="check"><input type="checkbox"> Wig styled per reference sheet p.4</label>
   <label class="check"><input type="checkbox"> Venue permit printed (JP + EN)</label>
   <blockquote class="jp">「炎は消えても、物語は残る。」 — The flame dies, but the story remains.</blockquote>
-  <h2>Music Cues</h2><p>Track A: taiko + shakuhachi loop, 92 BPM. Track B: ambient shrine bells for scene 03.</p>`},
+  <h2>Music Cues</h2><p>Track A: taiko + shakuhachi loop, 92 BPM. Track B: ambient shrine bells for scene 03.</p>
+  <h2>Coverage Notes</h2><p>Wide establishing frame, medium two-shot, detail inserts of the fox mask and lantern rig. Keep 30s ambient tails for the edit.</p>`},
  {title:'Koneko Toujou — Rooftop Study',jp:'塔城小猫・屋上スタディ',wing:'personal',tier:'STORY',pages:9,
   body:`<h2>Quick Reference</h2><table><tr><th>Item</th><th>Spec</th></tr>
   <tr><td>Uniform</td><td>Kuoh Academy winter set, grey blazer</td></tr><tr><td>Neko ears</td><td>White, wired poseable core</td></tr>
@@ -577,7 +604,8 @@ const SEEDS=[
   <tr><td>01</td><td class="jp">読書 — quiet reading</td><td>Calm</td></tr>
   <tr><td>02</td><td class="jp">煎餅の共有 — sharing senbei</td><td>Soft smile</td></tr>
   <tr><td>03</td><td class="jp">夕焼けの猫 — sunset cat</td><td>Playful</td></tr></table>
-  <blockquote class="jp">「静かな場所が一番好き。」 — I like quiet places best.</blockquote>`},
+  <blockquote class="jp">「静かな場所が一番好き。」 — I like quiet places best.</blockquote>
+  <h2>Export Spec</h2><p>sRGB, 4:2:2, long edge 4096. Keep the rooftop railing in frame for scale.</p>`},
  {title:'District Field Notes — Backstreet Loops',jp:'裏路地フィールドノート',wing:'general',tier:'FIELD',pages:5,
   body:`<h2>Location Scout Log</h2><table><tr><th>Spot</th><th>Best Hour</th><th>Note</th></tr>
   <tr><td>Café alley</td><td>17:40</td><td>Warm tungsten spill, wet asphalt reflections</td></tr>
@@ -589,16 +617,27 @@ const LORE=[
  {jp:'「奪われた日常は、必ず取り返せる。」',en:'"The everyday life that was stolen from you can always be taken back."',src:'District Field Notes · p.2',pos:[-25,1.5,-19]},
  {jp:'「音楽は心の怪盗団の合図。」',en:'"Music is the calling card of the phantom thieves of the heart."',src:'Himiko & Iyo Directive · p.11',pos:[26,1.5,17]},
  {jp:'「本棚の裏に、もう一つの物語。」',en:'"Behind the bookshelf lies another story."',src:'Koneko Toujou Directive · p.6',pos:[-23,1.5,23]}];
+/* reading-synced feats: getters derive live from per-file scroll progress */
+function finishedCount(){return S.files.filter(f=>(f.progress||0)>=.97).length}
+function totalRead(){return S.files.reduce((a,f)=>a+(f.progress||0),0)}
 const AWARDS=[
  {id:'first',name:'Take Your Files',cond:'Summon your first HTML directive.',goal:1,get:()=>S.stats.summons,reward:100},
- {id:'reader',name:'Bookworm Phantom',cond:'Open 3 volumes in the reader.',goal:3,get:()=>S.stats.reads,reward:150},
+ {id:'read25',name:'First Chapter',cond:'Read any volume to 25% — tracked live from your scroll depth.',goal:25,get:()=>Math.floor(Math.max(0,...S.files.map(f=>(f.progress||0)*100),0)),reward:80,pct:true},
+ {id:'finish1',name:'Cover to Cover',cond:'Scroll a volume all the way to its end (100%).',goal:1,get:()=>finishedCount(),reward:180},
+ {id:'finish3',name:'Triple Threat',cond:'Finish 3 volumes completely.',goal:3,get:()=>finishedCount(),reward:300},
+ {id:'deep',name:'Archive Devourer',cond:'Accumulate 500% total reading progress across the whole archive (5 full volumes worth).',goal:5,get:()=>Math.floor(totalRead()),reward:250},
  {id:'dj',name:'Den DJ',cond:'Set a summoned track as the Den BGM.',goal:1,get:()=>S.stats.plays,reward:100},
+ {id:'curator',name:'Wall Curator',cond:'Upload 3 image prints to the Gallery wall.',goal:3,get:()=>S.images.length,reward:160},
  {id:'lore',name:'Memory Thief',cond:'Recover all 3 hidden memos in the outer ring.',goal:3,get:()=>S.loreFound.size,reward:250},
- {id:'dash',name:'Run Like Joker',cond:'Dash for a total of 60 seconds.',goal:60,get:()=>Math.floor(S.stats.dashes),reward:120},
+ {id:'dash',name:'Run Like Joker',cond:'Dash (hold RMB) for a total of 60 seconds.',goal:60,get:()=>Math.floor(S.stats.dashes),reward:120},
  {id:'collector',name:'Grand Archive',cond:'Hold 6 or more volumes at once.',goal:6,get:()=>S.files.length,reward:200}];
 
 /* ---------------- procedural poster art ---------------- */
 function star(g,x,y,r,color){g.fillStyle=color;g.beginPath();for(let i=0;i<10;i++){const a=i/10*Math.PI*2-Math.PI/2,rr=i%2?r*.45:r;g[i?'lineTo':'moveTo'](x+Math.cos(a)*rr,y+Math.sin(a)*rr)}g.closePath();g.fill()}
+function drawCover(g,img,w,h){const iw=img.naturalWidth||img.width,ih=img.naturalHeight||img.height;
+ if(!iw||!ih){g.fillStyle='#0a0f2e';g.fillRect(0,0,w,h);return}
+ const sc=Math.max(w/iw,h/ih),dw=iw*sc,dh=ih*sc;
+ g.fillStyle='#050508';g.fillRect(0,0,w,h);g.drawImage(img,(w-dw)/2,(h-dh)/2,dw,dh);}
 function drawPoster(g,w,h,kind,seed){
  const R=(n)=>{seed=(seed*9301+49297)%233280;return seed/233280*n};
  g.fillStyle='#0a0f2e';g.fillRect(0,0,w,h);
@@ -650,6 +689,16 @@ const GALLERY=[
  {name:'Mask of Rebellion',kind:'mask',desc:'Rip off the mask — your files, your rules, rendered exactly as written.'},
  {name:'Midnight District',kind:'city',desc:'The city outside the Den. Neon, fog, and a red line leading home.'},
  {name:'Star Burst Print',kind:'stars',desc:'Bonus poster unlocked by entering the Den. Take it with you.'}];
+function galleryItems(){
+ const built=GALLERY.map(g=>({name:g.name,kind:g.kind,desc:g.desc,builtin:true}));
+ const ups=S.images.map(r=>({name:r.title,kind:'upload',desc:'Your print · '+fmtSize(r.size)+' · '+(r.w||'?')+'×'+(r.h||'?')+'px · stored in the persistent vault and hung on the 3D wall.',rec:r,builtin:false}));
+ return built.concat(ups);}
+function loadImageRec(rec){return new Promise(res=>{
+ if(!rec.url)rec.url=URL.createObjectURL(rec.blob);
+ const im=new Image();
+ im.onload=()=>{rec.img=im;rec.w=im.naturalWidth;rec.h=im.naturalHeight;res(true)};
+ im.onerror=()=>res(false);
+ im.src=rec.url;});}
 
 /* ---------------- audio ---------------- */
 let AC=null,masterGain=null,musicGain=null,sfxGain=null,analyser=null,ambNodes=[],ambTimer=null,mediaEl=null;
@@ -722,7 +771,7 @@ function checkAwards(){AWARDS.forEach(a=>{if(!S.awards.has(a.id)&&a.get()>=a.goa
 
 /* ---------------- THREE world ---------------- */
 let renderer,scene,camera,clock,player,parts={},camYaw=Math.PI,camPitch=.3,camDist=6;
-let vel,keys={},joyVec={x:0,y:0},runTouch=false;
+let vel,keys={},joyVec={x:0,y:0},runTouch=false,runMouse=false;
 let interactables=[],bookMeshes=[],stationRefs={},loreMeshes=[],particles,pVel=[],shafts,neons=[];
 let targetObj=null,fpsAcc=0,fpsN=0,fpsShown=60,qCool=0;
 const WORLD_R=32,colliders=[];
@@ -745,7 +794,7 @@ function initWorld(){
  const key=new THREE.DirectionalLight(0x4a6aff,1);key.position.set(10,26,8);scene.add(key);
  const rim=new THREE.DirectionalLight(0xe60012,.7);rim.position.set(-16,12,-18);scene.add(rim);
  const fill=new THREE.DirectionalLight(0x00e5ff,.35);fill.position.set(18,8,20);scene.add(fill);
- buildFloor();buildWalls();buildStations();buildGalleryWall();buildAwardWall();buildShelves();buildProps();buildParticles();buildPlayer();buildLore();
+ buildFloor();buildWalls();buildStations();rebuildGalleryWall();buildAwardWall();buildShelves();buildProps();buildParticles();buildPlayer();buildLore();
  addEventListener('resize',onResize);onResize();}
 function onResize(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)}
 function applyQuality(){const q=S.quality;renderer.setPixelRatio(q==='low'?1:q==='balanced'?Math.min(devicePixelRatio,1.5):Math.min(devicePixelRatio,2));
@@ -775,7 +824,7 @@ function buildFloor(){
   g.fillStyle='#00e5ff';g.font='bold 26px sans-serif';g.textAlign='center';g.fillText('召',0,9);});
  const rune=new THREE.Mesh(new THREE.PlaneGeometry(8,8),new THREE.MeshBasicMaterial({map:runeTex,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthWrite:false}));
  rune.rotation.x=-Math.PI/2;rune.position.y=.03;scene.add(rune);stationRefs.rune=rune;
- interactables.push({type:'summon',label:'SUMMON FILES',sub:'DROP HTML / MUSIC',jp:'召喚陣',pos:new THREE.Vector3(0,0,0),radius:4});
+ interactables.push({type:'summon',label:'SUMMON FILES',sub:'DROP HTML / MUSIC / PNG',jp:'召喚陣',pos:new THREE.Vector3(0,0,0),radius:4});
  const moon=new THREE.Mesh(new THREE.SphereGeometry(3.2,20,20),new THREE.MeshLambertMaterial({color:0x22307a,emissive:0x0a1440}));
  moon.position.set(0,12,-4);scene.add(moon);stationRefs.moon=moon;
  const craterM=new THREE.MeshLambertMaterial({color:0x111c50});
@@ -841,8 +890,8 @@ function buildStations(){
  vm.position.set(-7,0,-6);vm.rotation.y=.5;scene.add(vm);colliders.push({x:-7,z:-6,r:2});
  const vmSign=stationSign('PALACE MAKER','召喚＆書庫','#ffd400');vmSign.position.set(-7,5,-6);scene.add(vmSign);
  stationRefs.vm=vm;
- interactables.push({type:'case',label:'BROWSE THE ARCHIVE',sub:'HTML VOLUMES · SEARCH · MANAGE',jp:'怪盗ケース',pos:new THREE.Vector3(-7,0,-6),radius:3.4});
- interactables.push({type:'summon',label:'SUMMON FILES',sub:'IMPORT HTML & MUSIC',jp:'召喚',pos:new THREE.Vector3(-7,0,-6),radius:2.2,prio:2});
+ interactables.push({type:'case',label:'BROWSE THE ARCHIVE',sub:'W/S + WHEEL TO NAVIGATE',jp:'怪盗ケース',pos:new THREE.Vector3(-7,0,-6),radius:3.4});
+ interactables.push({type:'summon',label:'SUMMON FILES',sub:'IMPORT HTML / MUSIC / PNG',jp:'召喚',pos:new THREE.Vector3(-7,0,-6),radius:2.2,prio:2});
 
  stationRefs.pedestals=[];
  for(let i=0;i<4;i++){const ped=new THREE.Group();
@@ -853,7 +902,7 @@ function buildStations(){
   ped.position.set(-4.5+i*3,0,-21);scene.add(ped);colliders.push({x:-4.5+i*3,z:-21,r:.8});
   stationRefs.pedestals.push({ped,ring,top});}
  const mSign=stationSign('MUSIC PLAYER','音楽再生','#ff2fa0');mSign.position.set(0,3.4,-21);scene.add(mSign);
- interactables.push({type:'music',label:'START MUSIC PLAYER',sub:'CHANGE BGM · PLAYLIST',jp:'音楽',pos:new THREE.Vector3(0,0,-20),radius:4.5});
+ interactables.push({type:'music',label:'START MUSIC PLAYER',sub:'W/S + WHEEL TO NAVIGATE',jp:'音楽',pos:new THREE.Vector3(0,0,-20),radius:4.5});
 
  const booth=new THREE.Group();
  const bm=new THREE.MeshLambertMaterial({color:0xb00014});
@@ -861,9 +910,9 @@ function buildStations(){
  const gl=new THREE.Mesh(new THREE.BoxGeometry(1.3,1.9,1.3),new THREE.MeshLambertMaterial({color:0x9fd8e8,transparent:true,opacity:.4}));gl.position.y=1.65;booth.add(gl);
  const lamp=new THREE.Mesh(new THREE.SphereGeometry(.15,8,8),new THREE.MeshBasicMaterial({color:0xffd400}));lamp.position.y=3.2;booth.add(lamp);
  booth.position.set(8,0,-8);scene.add(booth);colliders.push({x:8,z:-8,r:1.4});
- const sSign=stationSign('SAVE POINT','記録電話','#3ddc84');sSign.position.set(8,4.3,-8);scene.add(sSign);
+ const sSign=stationSign('SAVE & VAULT','記録と保管','#3ddc84');sSign.position.set(8,4.3,-8);scene.add(sSign);
  stationRefs.saveLamp=lamp;
- interactables.push({type:'save',label:'RECORD PROGRESS',sub:'WRITE / LOAD',jp:'セーブ',pos:new THREE.Vector3(8,0,-8),radius:2.8});
+ interactables.push({type:'save',label:'RECORD / EXPORT PACK',sub:'PERSISTENT VAULT',jp:'セーブ',pos:new THREE.Vector3(8,0,-8),radius:2.8});
 
  const rug=new THREE.Mesh(new THREE.CircleGeometry(3.4,20),new THREE.MeshLambertMaterial({color:0x8f0010}));
  rug.rotation.x=-Math.PI/2;rug.position.set(10,.015,14);scene.add(rug);
@@ -879,19 +928,31 @@ function buildStations(){
  const lSign=stationSign('PHANTOM LOUNGE','談話室','#00e5ff');lSign.position.set(10,3.4,14);scene.add(lSign);
  interactables.push({type:'menu',label:'OPEN DEN MENU',sub:'ALL STATIONS',jp:'メニュー',pos:new THREE.Vector3(10,0,14),radius:3.2});}
 
-function buildGalleryWall(){
+/* gallery wall — rebuilt whenever prints are added/removed */
+function posterTexture(item,idx){
+ const cv=document.createElement('canvas');cv.width=480;cv.height=300;const g=cv.getContext('2d');
+ if(item.builtin)drawPoster(g,480,300,item.kind,7+idx*13);
+ else if(item.rec&&item.rec.img)drawCover(g,item.rec.img,480,300);
+ else{g.fillStyle='#0a0f2e';g.fillRect(0,0,480,300);}
+ const t=new THREE.CanvasTexture(cv);t.colorSpace=THREE.SRGBColorSpace;return t;}
+function rebuildGalleryWall(){
+ (stationRefs.posters||[]).forEach(grp=>{scene.remove(grp);
+  grp.traverse(o=>{if(o.geometry)o.geometry.dispose();
+   if(o.material){if(o.material.map)o.material.map.dispose();o.material.dispose();}});});
  stationRefs.posters=[];
- GALLERY.forEach((G,i)=>{
-  const cv=document.createElement('canvas');cv.width=480;cv.height=300;drawPoster(cv.getContext('2d'),480,300,G.kind,7+i*13);
-  const tex=new THREE.CanvasTexture(cv);
-  const frame=new THREE.Mesh(new THREE.BoxGeometry(4.6,3.1,.2),new THREE.MeshLambertMaterial({color:0x8a6a20}));
+ interactables=interactables.filter(it=>it.type!=='gallery');
+ const items=galleryItems();
+ items.forEach((item,i)=>{
+  const tex=posterTexture(item,i);
+  const frame=new THREE.Mesh(new THREE.BoxGeometry(4.6,3.1,.2),new THREE.MeshLambertMaterial({color:item.builtin?0x8a6a20:0x00b8d4}));
   const art=new THREE.Mesh(new THREE.PlaneGeometry(4.2,2.7),new THREE.MeshBasicMaterial({map:tex}));
   const grp=new THREE.Group();grp.add(frame);art.position.z=.12;grp.add(art);
-  const a=-.5+i*.28;const r=WORLD_R-1;
-  grp.position.set(Math.cos(a)*r,3.2,Math.sin(a)*r);grp.lookAt(0,3.2,0);scene.add(grp);
+  const row=Math.floor(i/6),col=i%6;
+  const a=-.62+col*.24;const r=WORLD_R-1;
+  grp.position.set(Math.cos(a)*r,3.2+row*3.5,Math.sin(a)*r);grp.lookAt(0,grp.position.y,0);scene.add(grp);
   stationRefs.posters.push(grp);
-  interactables.push({type:'gallery',idx:i,label:'VIEW GALLERY',sub:G.name,jp:'画廊',pos:new THREE.Vector3(Math.cos(a)*(r-2),0,Math.sin(a)*(r-2)),radius:3});});
- const gSign=stationSign('GALLERY','画廊','#ff2fa0');gSign.position.set(24,6,9);scene.add(gSign);}
+  interactables.push({type:'gallery',idx:i,label:'VIEW GALLERY',sub:item.name,jp:'画廊',pos:new THREE.Vector3(Math.cos(a)*(r-2),0,Math.sin(a)*(r-2)),radius:3});});
+ if(!stationRefs.galSign){const gSign=stationSign('GALLERY','画廊','#ff2fa0');gSign.position.set(24,6,9);scene.add(gSign);stationRefs.galSign=gSign;}}
 
 function buildAwardWall(){
  stationRefs.medals=[];
@@ -901,10 +962,10 @@ function buildAwardWall(){
   g.fillStyle='#ffd400';g.font='900 30px Anton,sans-serif';g.textAlign='center';g.fillText(String(i+1),64,76);
   const tex=new THREE.CanvasTexture(cv);
   const m=new THREE.Mesh(new THREE.PlaneGeometry(1.7,1.7),new THREE.MeshBasicMaterial({map:tex,transparent:true}));
-  const a=Math.PI-.4-i*.22;const r=WORLD_R-1;
+  const a=Math.PI-.32-i*.19;const r=WORLD_R-1;
   m.position.set(Math.cos(a)*r,2.2+(i%2)*2.2,Math.sin(a)*r);m.lookAt(0,m.position.y,0);scene.add(m);
   stationRefs.medals.push(m);});
- interactables.push({type:'award',label:'CHECK AWARDS',sub:'FEATS · CONDITIONS · P',jp:'勲章',pos:new THREE.Vector3(-24,0,9),radius:4.5});
+ interactables.push({type:'award',label:'CHECK AWARDS',sub:'SYNCED TO YOUR READING',jp:'勲章',pos:new THREE.Vector3(-24,0,9),radius:4.5});
  const aSign=stationSign('AWARD WALL','勲章の壁','#ffd400');aSign.position.set(-24,6,9);scene.add(aSign);}
 
 function buildShelves(){
@@ -1006,7 +1067,7 @@ function updatePlayer(dt){
   if(keys['KeyA']||keys['ArrowLeft'])ix-=1;if(keys['KeyD']||keys['ArrowRight'])ix+=1;
   ix+=joyVec.x;iz+=joyVec.y;}
  const mag=Math.hypot(ix,iz);
- const running=(keys['ShiftLeft']||keys['ShiftRight']||runTouch)&&mag>.1;
+ const running=(keys['ShiftLeft']||keys['ShiftRight']||runTouch||runMouse)&&mag>.1&&!block;
  document.body.classList.toggle('running',running&&!S.reduced);
  if(running){S.stats.dashes+=dt;if(Math.floor(S.stats.dashes)%10===0)checkAwards();}
  const speed=running?9.5:5.2;
@@ -1059,6 +1120,7 @@ function scanInteract(){
   b.mesh.position.y=b.baseY+(on?.14+Math.sin(performance.now()*.006)*.04:0);});}
 function setPrompt(it){const p=$('prompt');
  if(!it){p.classList.remove('show');return}
+ $('promptKey').textContent=isTouch?'✕':'F';
  $('promptEx').textContent='EXAMINE!';
  $('promptAct').textContent=it.label;
  $('promptSub').textContent=(it.jp||'')+(it.sub?' · '+it.sub:'');
@@ -1067,7 +1129,7 @@ function doInteract(){if(!targetObj||S.panelOpen)return;const it=targetObj;
  if(it.type==='book'){openReader(it.file);sfx('confirm')}
  else if(it.type==='summon'){openSummon();sfx('summon')}
  else if(it.type==='music'){openPanel('musicPanel');sfx('confirm')}
- else if(it.type==='save'){openPanel('savePanel');refreshSaveInfo();sfx('confirm')}
+ else if(it.type==='save'){openPanel('savePanel');refreshSaveInfo();refreshVault();sfx('confirm')}
  else if(it.type==='case'){openCase();sfx('confirm')}
  else if(it.type==='gallery'){S.galSel=it.idx||0;openPanel('galleryPanel');sfx('confirm')}
  else if(it.type==='award'){openPanel('awardPanel');sfx('confirm')}
@@ -1133,21 +1195,52 @@ function loop(){requestAnimationFrame(loop);if(paused)return;
   qCool-=.5;
   if(fpsShown<26&&S.quality!=='low'&&qCool<=0){S.quality=S.quality==='high'?'balanced':'low';applyQuality();syncQChips();
    toast('Performance guard: quality → '+S.quality.toUpperCase(),'warn');qCool=8;}}}
-document.addEventListener('visibilitychange',()=>{paused=document.hidden;if(!paused&&clock)clock.getDelta()});
+document.addEventListener('visibilitychange',()=>{paused=document.hidden;
+ if(paused){flushNow()}else if(clock)clock.getDelta()});
 function updateObjective(){let txt;
  if(!S.files.length)txt='The shelves are empty. Drag & drop an HTML file anywhere to summon your first volume.';
- else if(S.loreFound.size<LORE.length&&S.stats.reads>0)txt='Hunt the '+(LORE.length-S.loreFound.size)+' hidden memo(s) glowing in the outer ring — check the minimap stars.';
- else if(S.loreFound.size===LORE.length)txt='★ All memories recovered. Check the AWARD wall to claim your feats.';
- else if(!S.tracks.length)txt='Feed the Music Hall: drop an MP3 anywhere to replace the Den ambience.';
- else if(!S.stats.reads)txt='Walk to a colored stack and press E on a glowing spine to read it.';
- else txt='Explore freely. TAB Archive · M Music · ESC Menu. Awards pay P coins.';
+ else if(S.loreFound.size<LORE.length&&S.stats.reads>0)txt='Hunt the '+(LORE.length-S.loreFound.size)+' hidden memo(s) in the outer ring — minimap stars. Awards track your reading live.';
+ else if(S.loreFound.size===LORE.length)txt='★ All memories recovered. Read volumes to 100% to clear the reading awards.';
+ else if(!S.tracks.length)txt='Feed the Music Hall: drop an MP3 anywhere. PNGs drop straight onto the Gallery wall.';
+ else if(!S.stats.reads)txt='Walk to a colored stack and press F on a glowing spine to read it.';
+ else txt='Explore freely. TAB Archive · M Music · ESC Menu. Reading depth pays P coins at the AWARD wall.';
  if(txt!==lastObj){lastObj=txt;$('objTxt').textContent=txt}}
+
+/* ---------------- list navigation (W/S + wheel) ---------------- */
+const LIST_PANELS=['casePanel','musicPanel','galleryPanel','awardPanel'];
+function listLen(){
+ if(S.panelOpen==='casePanel')return filteredFiles().length;
+ if(S.panelOpen==='musicPanel')return S.tracks.length;
+ if(S.panelOpen==='galleryPanel')return galleryItems().length;
+ if(S.panelOpen==='awardPanel')return AWARDS.length;
+ return 0;}
+function listNav(dir){const n=listLen();if(!n)return;
+ if(S.panelOpen==='casePanel'){S.caseSel=(S.caseSel+dir+n)%n;renderCase()}
+ else if(S.panelOpen==='musicPanel'){S.trkSel=(S.trkSel+dir+n)%n;renderTracks()}
+ else if(S.panelOpen==='galleryPanel'){S.galSel=(S.galSel+dir+n)%n;renderGallery()}
+ else if(S.panelOpen==='awardPanel'){S.awSel=(S.awSel+dir+n)%n;renderAwards()}
+ sfx('hover');}
+function listConfirm(){
+ if(S.panelOpen==='casePanel'){const arr=filteredFiles();if(arr[S.caseSel])openReader(arr[S.caseSel])}
+ else if(S.panelOpen==='musicPanel'){if(S.tracks[S.trkSel])playTrack(S.trkSel)}
+ else if(S.panelOpen==='galleryPanel'){$('galZoom').click()}
+ else if(S.panelOpen==='awardPanel'){sfx('confirm')}}
+function bindListWheel(el){let acc=0;
+ el.addEventListener('wheel',e=>{e.preventDefault();acc+=e.deltaY;
+  while(acc>=50){acc-=50;listNav(1)}
+  while(acc<=-50){acc+=50;listNav(-1)}},{passive:false});}
+bindListWheel($('caseList'));bindListWheel($('trackList'));bindListWheel($('galList'));bindListWheel($('awardList'));
 
 /* ---------------- input ---------------- */
 addEventListener('keydown',e=>{
  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;
  keys[e.code]=true;if(!S.started)return;
- if(e.code==='KeyE')doInteract();
+ if(LIST_PANELS.indexOf(S.panelOpen)>=0){
+  if(e.code==='KeyW'||e.code==='ArrowUp'){e.preventDefault();listNav(-1);return}
+  if(e.code==='KeyS'||e.code==='ArrowDown'){e.preventDefault();listNav(1);return}
+  if(e.code==='Enter'||e.code==='KeyF'){e.preventDefault();listConfirm();return}
+ }
+ if(e.code==='KeyF')doInteract();
  if(e.code==='Tab'){e.preventDefault();S.panelOpen==='casePanel'?closePanel():openCase()}
  if(e.code==='KeyM'){S.panelOpen==='musicPanel'?closePanel():openPanel('musicPanel')}
  if(e.code==='Slash'){e.preventDefault();openCase();setTimeout(()=>$('caseSearch').focus(),80)}
@@ -1156,16 +1249,21 @@ addEventListener('keydown',e=>{
   else if(S.panelOpen)closePanel();
   else openPanel('menuPanel');}});
 addEventListener('keyup',e=>{keys[e.code]=false});
+addEventListener('blur',()=>{keys={};runMouse=false;looking=false;});
 let looking=false,lastMX=0,lastMY=0;
-$('world').addEventListener('pointerdown',e=>{if(isTouch&&e.clientX<innerWidth*.45)return;
- looking=true;lastMX=e.clientX;lastMY=e.clientY;$('world').setPointerCapture(e.pointerId);});
+$('world').addEventListener('pointerdown',e=>{
+ if(isTouch&&e.clientX<innerWidth*.45)return;
+ if(e.button===2)runMouse=true;
+ looking=true;lastMX=e.clientX;lastMY=e.clientY;
+ try{$('world').setPointerCapture(e.pointerId)}catch(err){}});
 $('world').addEventListener('pointermove',e=>{if(!looking)return;
  const dx=e.clientX-lastMX,dy=e.clientY-lastMY;lastMX=e.clientX;lastMY=e.clientY;
  camYaw-=dx*.0042*S.sens;camPitch=clamp(camPitch+(S.invertY?-dy:dy)*.003*S.sens,-.15,1.1);});
-$('world').addEventListener('pointerup',()=>looking=false);
-$('world').addEventListener('pointercancel',()=>looking=false);
+$('world').addEventListener('pointerup',e=>{looking=false;if(e.button===2)runMouse=false;});
+$('world').addEventListener('pointercancel',()=>{looking=false;runMouse=false;});
 $('world').addEventListener('wheel',e=>{camDist=clamp(camDist+e.deltaY*.004,3.2,10)},{passive:true});
 $('world').addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('contextmenu',e=>{if(S.started&&!S.panelOpen&&e.target.tagName!=='INPUT')e.preventDefault();});
 const joyZone=$('joyZone'),joyBase=$('joyBase'),joyKnob=$('joyKnob');
 let joyId=null,joyCX=0,joyCY=0;
 joyZone.addEventListener('pointerdown',e=>{joyId=e.pointerId;joyCX=e.clientX;joyCY=e.clientY;
@@ -1186,7 +1284,8 @@ function openPanel(id){if(S.panelOpen&&S.panelOpen!==id)$(S.panelOpen).classList
  S.panelOpen=id;$(id).classList.add('open');sfx('confirm');
  if(id==='musicPanel'){syncDeck();renderTracks()}
  if(id==='galleryPanel')renderGallery();
- if(id==='awardPanel')renderAwards();}
+ if(id==='awardPanel')renderAwards();
+ if(id==='savePanel'){refreshSaveInfo();refreshVault();}}
 function closePanel(){if(!S.panelOpen)return;
  if(S.panelOpen==='readerPanel')teardownReader();
  $(S.panelOpen).classList.remove('open');S.panelOpen=null;sfx('back');}
@@ -1200,7 +1299,7 @@ document.querySelectorAll('.mitem').forEach(b=>b.addEventListener('click',()=>{c
  else if(act==='music')openPanel('musicPanel');
  else if(act==='gallery')openPanel('galleryPanel');
  else if(act==='award')openPanel('awardPanel');
- else if(act==='save'){openPanel('savePanel');refreshSaveInfo()}
+ else if(act==='save')openPanel('savePanel');
  else if(act==='settings')openPanel('settingsPanel');}));
 document.querySelectorAll('.mitem,.dbtn,.chipbtn,.fchip,.pnav').forEach(el=>el.addEventListener('mouseenter',()=>sfx('hover')));
 function toast(msg,kind='',ms=3400,action){const t=document.createElement('div');t.className='toast '+kind;
@@ -1209,7 +1308,7 @@ function toast(msg,kind='',ms=3400,action){const t=document.createElement('div')
  if(action){const b=document.createElement('button');b.textContent=action.label;b.onclick=()=>{action.fn();kill()};t.appendChild(b)}
  $('toasts').appendChild(t);setTimeout(kill,ms);}
 
-/* ---------------- ingestion ---------------- */
+/* ---------------- ingestion (html / audio / image) ---------------- */
 function fmtSize(b){return b>1048576?(b/1048576).toFixed(1)+' MB':b>1024?(b/1024).toFixed(1)+' KB':b+' B'}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
 function extractMeta(html,fallback){const m={title:fallback,wing:'general',tier:'FIELD',pages:0,jp:''};
@@ -1225,7 +1324,7 @@ function extractMeta(html,fallback){const m={title:fallback,wing:'general',tier:
   if(/gold/i.test(txt))m.tier='GOLD';else if(/story/i.test(txt))m.tier='STORY';
   const pg=txt.match(/(\d+)\s*(pages|ページ|p\b)/);if(pg)m.pages=parseInt(pg[1]);}catch(e){}
  return m;}
-async function ingestFiles(list){ensureAudio();let htmlN=0,audioN=0,errN=0;
+async function ingestFiles(list){ensureAudio();let htmlN=0,audioN=0,imgN=0,errN=0;
  for(const f of list){const name=f.name||'untitled',lower=name.toLowerCase();
   try{
    if(/\.(html?|htm)$/.test(lower)||f.type==='text/html'){
@@ -1234,36 +1333,52 @@ async function ingestFiles(list){ensureAudio();let htmlN=0,audioN=0,errN=0;
     const rec={id:uid(),title:meta.title,jp:meta.jp,wing:meta.wing,tier:meta.tier,pages:meta.pages,
      size:blob.size,blob,text,added:Date.now(),order:S.files.length,scroll:0,zoom:1,progress:0};
     await dbPut('files',rec);S.files.push(rec);htmlN++;
-   }else if(/\.(mp3|ogg|wav|m4a|flac|aac|opus)$/.test(lower)||f.type.startsWith('audio/')){
+   }else if(/\.(mp3|ogg|wav|m4a|flac|aac|opus)$/.test(lower)||f.type.indexOf('audio/')===0){
     const blob=f.slice(0,f.size,f.type||'audio/mpeg');
     const rec={id:uid(),title:name.replace(/\.[^.]+$/,''),blob,size:blob.size,added:Date.now()};
     await dbPut('audio',rec);S.tracks.push(rec);audioN++;
+   }else if(/\.(png|jpe?g|webp|gif|bmp|svg)$/.test(lower)||f.type.indexOf('image/')===0){
+    const blob=f.slice(0,f.size,f.type||'image/png');
+    const rec={id:uid(),title:name.replace(/\.[^.]+$/,''),blob,size:blob.size,added:Date.now()};
+    const ok=await loadImageRec(rec);
+    if(!ok){errN++;toast('Could not decode image: '+name,'warn');continue}
+    await dbPut('images',{id:rec.id,title:rec.title,blob:rec.blob,size:rec.size,added:rec.added});
+    S.images.push(rec);imgN++;
    }else{errN++;toast('Unsupported file skipped: '+name,'warn')}
   }catch(err){errN++;toast('Failed to import '+name,'warn')}}
  if(htmlN){S.stats.summons+=htmlN;rebuildBooks();renderCase();sfx('summon');burstRune();checkAwards();
-  toast('📜 '+htmlN+' directive'+(htmlN>1?'s':'')+' summoned & shelved','ok')}
- if(audioN){renderTracks();sfx('summon');toast('💿 '+audioN+' track'+(audioN>1?'s':'')+' added','ok');
+  toast('📜 '+htmlN+' directive'+(htmlN>1?'s':'')+' summoned & shelved — saved to vault','ok')}
+ if(audioN){renderTracks();sfx('summon');toast('💿 '+audioN+' track'+(audioN>1?'s':'')+' added — saved to vault','ok');
   if(S.curTrack<0&&S.tracks.length)playTrack(0);}
- persistMeta();}
+ if(imgN){rebuildGalleryWall();S.galSel=galleryItems().length-1;renderGallery();sfx('summon');burstRune();checkAwards();
+  toast('🖼 '+imgN+' print'+(imgN>1?'s':'')+' hung on the Gallery wall — saved to vault','ok',5200,
+   {label:'VIEW',fn:()=>{openPanel('galleryPanel')}});}
+ persistMeta();refreshVault();}
 function burstRune(){stationRefs.rune.material.opacity=1;stationRefs.rune.scale.set(1.35,1.35,1.35);
  setTimeout(()=>stationRefs.rune.scale.set(1,1,1),400);}
 let dragDepth=0;
 addEventListener('dragenter',e=>{e.preventDefault();if(!S.started)return;dragDepth++;openSummon(true)});
-addEventListener('dragover',e=>{e.preventDefault();const overHtml=e.clientX<innerWidth/2;
- $('laneHtml').classList.toggle('hot',overHtml);$('laneAudio').classList.toggle('hot',!overHtml);});
+addEventListener('dragover',e=>{e.preventDefault();
+ const third=Math.min(2,Math.floor(e.clientX/innerWidth*3));
+ $('laneHtml').classList.toggle('hot',third===0);
+ $('laneAudio').classList.toggle('hot',third===1);
+ $('laneImage').classList.toggle('hot',third===2);});
 addEventListener('dragleave',e=>{e.preventDefault();dragDepth--;if(dragDepth<=0){dragDepth=0;closeSummon()}});
 addEventListener('drop',e=>{e.preventDefault();dragDepth=0;
- $('laneHtml').classList.remove('hot');$('laneAudio').classList.remove('hot');closeSummon();
+ ['laneHtml','laneAudio','laneImage'].forEach(id=>$(id).classList.remove('hot'));closeSummon();
  if(e.dataTransfer&&e.dataTransfer.files.length)ingestFiles([...e.dataTransfer.files]);});
 function openSummon(fromDrag){$('summonOverlay').classList.add('open');if(!fromDrag)sfx('summon')}
-function closeSummon(){$('summonOverlay').classList.remove('open');$('laneHtml').classList.remove('hot');$('laneAudio').classList.remove('hot')}
+function closeSummon(){$('summonOverlay').classList.remove('open');['laneHtml','laneAudio','laneImage'].forEach(id=>$(id).classList.remove('hot'))}
 $('summonCancel').addEventListener('click',closeSummon);
 $('pickHtml').addEventListener('click',()=>$('fileHtml').click());
 $('pickAudio').addEventListener('click',()=>$('fileAudio').click());
+$('pickImage').addEventListener('click',()=>$('fileImage').click());
 $('fileHtml').addEventListener('change',e=>{ingestFiles([...e.target.files]);e.target.value='';closeSummon()});
 $('fileAudio').addEventListener('change',e=>{ingestFiles([...e.target.files]);e.target.value='';closeSummon()});
+$('fileImage').addEventListener('change',e=>{ingestFiles([...e.target.files]);e.target.value='';closeSummon()});
 $('caseSummon').addEventListener('click',()=>{closePanel();openSummon()});
 $('musicSummon').addEventListener('click',()=>$('fileAudio').click());
+$('galSummon').addEventListener('click',()=>$('fileImage').click());
 
 /* ---------------- archive list ---------------- */
 function normalize(s){return (s||'').normalize('NFKC').toLowerCase()}
@@ -1283,13 +1398,13 @@ function renderCase(){const list=$('caseList');list.innerHTML='';const arr=filte
  if(!arr.length){list.innerHTML='<div class="emptyNote"><div class="big">NO VOLUMES FOUND</div>Summon HTML directives via drag &amp; drop or ＋ SUMMON.<br>検索結果なし</div>';
   $('caseDescT').textContent='—';$('caseDescD').textContent='Nothing shelved yet.';drawCaseCard(null);$('caseThumbs').innerHTML='';return;}
  arr.forEach((f,i)=>{const row=document.createElement('div');row.className='p5row'+(i===S.caseSel?' sel':'');
-  row.innerHTML='<span class="star">★</span><span class="nm"></span><span class="mini">'+fmtSize(f.size)+'</span><span class="badge">'+WINGS[f.wing].label+'</span>';
+  row.innerHTML='<span class="star">★</span><span class="nm"></span><span class="mini">'+Math.round((f.progress||0)*100)+'% · '+fmtSize(f.size)+'</span><span class="badge">'+WINGS[f.wing].label+'</span>';
   row.querySelector('.nm').textContent=f.title;
   row.addEventListener('click',()=>{if(S.caseSel===i){openReader(f)}else{S.caseSel=i;renderCase();sfx('hover')}});
   list.appendChild(row);});
  const f=arr[S.caseSel];
  $('caseDescT').textContent=f.title;
- $('caseDescD').textContent=(f.jp?f.jp+' · ':'')+WINGS[f.wing].label+' wing · '+f.tier+' tier · '+fmtSize(f.size)+(f.pages?' · '+f.pages+' pages':'')+' · read '+Math.round((f.progress||0)*100)+'%. Stored byte-for-byte.';
+ $('caseDescD').textContent=(f.jp?f.jp+' · ':'')+WINGS[f.wing].label+' wing · '+f.tier+' tier · '+fmtSize(f.size)+(f.pages?' · '+f.pages+' pages':'')+' · read '+Math.round((f.progress||0)*100)+'%. Stored byte-for-byte in the vault.';
  drawCaseCard(f);renderCaseThumbs(arr);
  const sel=list.children[S.caseSel];if(sel&&sel.scrollIntoView)sel.scrollIntoView({block:'nearest'});}
 function drawCaseCard(f){const cv=$('caseCardCv'),g=cv.getContext('2d');
@@ -1300,16 +1415,15 @@ function drawCaseCard(f){const cv=$('caseCardCv'),g=cv.getContext('2d');
  g.fillStyle='#fff';g.font='bold 22px Oswald,sans-serif';g.textAlign='left';g.fillText(f.title.slice(0,32),22,cv.height-26);
  $('caseCardCap').textContent=f.title;}
 function renderCaseThumbs(arr){const strip=$('caseThumbs');strip.innerHTML='';
- const spots=[[0,0,-6],[62,4,5],[2,62,4],[66,66,-5]];
- let si=0;
+ const spots=[[0,0,-6],[62,4,5],[2,62,4],[66,66,-5]];let si=0;
  arr.forEach((f,i)=>{if(i===S.caseSel||si>=4)return;
   const th=document.createElement('div');th.className='th';
   const sp=spots[si%4];th.style.left=sp[0]+'%';th.style.top=sp[1]+'%';th.style.transform='rotate('+sp[2]+'deg)';
   const cv=document.createElement('canvas');cv.width=160;cv.height=100;
   drawPoster(cv.getContext('2d'),160,100,['thief','cat','mask','city','stars'][f.title.length%5],f.title.length*7+f.size%97);
   th.appendChild(cv);strip.appendChild(th);si++;});}
-$('casePrev').addEventListener('click',()=>{const arr=filteredFiles();if(!arr.length)return;S.caseSel=(S.caseSel-1+arr.length)%arr.length;renderCase();sfx('hover')});
-$('caseNext').addEventListener('click',()=>{const arr=filteredFiles();if(!arr.length)return;S.caseSel=(S.caseSel+1)%arr.length;renderCase();sfx('hover')});
+$('casePrev').addEventListener('click',()=>{listNav(-1)});
+$('caseNext').addEventListener('click',()=>{listNav(1)});
 $('caseRead').addEventListener('click',()=>{const arr=filteredFiles();if(arr[S.caseSel])openReader(arr[S.caseSel])});
 $('caseRename').addEventListener('click',()=>{const arr=filteredFiles();const f=arr[S.caseSel];if(!f)return;
  const row=$('caseList').children[S.caseSel];if(!row)return;
@@ -1337,13 +1451,15 @@ function syncChips(){document.querySelectorAll('[data-wing]').forEach(c=>c.class
 document.querySelectorAll('[data-wing]').forEach(c=>c.addEventListener('click',()=>{S.wingFilter=c.dataset.wing;S.caseSel=0;syncChips();renderCase();sfx('hover')}));
 function openCase(){renderCase();openPanel('casePanel')}
 
-/* ---------------- reader ---------------- */
-let scrollSaveTimer=null,activeReaderId=null;
+/* ---------------- reader (scroll depth feeds awards live) ---------------- */
+let scrollSaveTimer=null,activeReaderId=null,awTick=0;
 addEventListener('message',e=>{const d=e.data;
  if(!d||!d.__td||d.t!=='scroll'||!S.readerFile||S.readerFile.id!==activeReaderId)return;
- const f=S.readerFile;f.scroll=d.y;f.progress=d.p;
- $('readProg').firstElementChild.style.width=(d.p*100)+'%';$('readPct').textContent=Math.round(d.p*100)+'%';
- clearTimeout(scrollSaveTimer);scrollSaveTimer=setTimeout(()=>dbPut('files',f),600);});
+ const f=S.readerFile;f.scroll=d.y;f.progress=Math.max(f.progress||0,d.p);
+ $('readProg').firstElementChild.style.width=(f.progress*100)+'%';$('readPct').textContent=Math.round(f.progress*100)+'%';
+ clearTimeout(scrollSaveTimer);scrollSaveTimer=setTimeout(()=>dbPut('files',f),600);
+ const now=performance.now();
+ if(now-awTick>1200){awTick=now;checkAwards();}});
 function openReader(f){S.readerFile=f;S.readerZoom=f.zoom||1;
  S.stats.reads++;checkAwards();
  $('readerTitle').textContent=f.title;$('readerJP').textContent=f.jp||WINGS[f.wing].jp;
@@ -1365,7 +1481,8 @@ function openReader(f){S.readerFile=f;S.readerZoom=f.zoom||1;
  applyZoom();
  $('readProg').firstElementChild.style.width=((f.progress||0)*100)+'%';$('readPct').textContent=Math.round((f.progress||0)*100)+'%';
  openPanel('readerPanel');}
-function teardownReader(){const f=S.readerFile;if(f)dbPut('files',f);
+function teardownReader(){const f=S.readerFile;
+ if(f){dbPut('files',f).then(()=>checkAwards());}
  $('docFrame').srcdoc='';S.readerFile=null;activeReaderId=null;}
 function applyZoom(){const z=S.readerZoom,frame=$('docFrame');
  frame.style.transform='scale('+z+')';frame.style.width=(100/z)+'%';frame.style.height=(100/z)+'%';
@@ -1401,7 +1518,8 @@ function renderTracks(){const list=$('trackList');list.innerHTML='';
   list.appendChild(row);});
  const tr=S.tracks[S.trkSel];
  $('trkDescT').textContent=tr.title;
- $('trkDescD').textContent='User track · '+fmtSize(tr.size)+' · added '+new Date(tr.added).toLocaleDateString()+'. ✕ SET BGM makes this the Den background music.';}
+ $('trkDescD').textContent='User track · '+fmtSize(tr.size)+' · added '+new Date(tr.added).toLocaleDateString()+'. ✕ SET BGM makes this the Den background music.';
+ const sel=list.children[S.trkSel];if(sel&&sel.scrollIntoView)sel.scrollIntoView({block:'nearest'});}
 $('playBtn').addEventListener('click',togglePlay);
 $('nextBtn').addEventListener('click',()=>nextTrack(false));
 $('prevBtn').addEventListener('click',()=>{if(S.curTrack>0)playTrack(S.curTrack-1);else if(S.tracks.length)playTrack(S.tracks.length-1)});
@@ -1422,55 +1540,76 @@ $('muteBtn').addEventListener('click',()=>{ensureAudio();S.muted=!S.muted;
  $('muteBtn').classList.toggle('muted',S.muted);
  $('muteBtn').innerHTML='<span>'+(S.muted?'♪ MUTED':'♪ SOUND ON')+'</span>';syncDeck();persistMeta();});
 
-/* ---------------- gallery ---------------- */
-function renderGallery(){const list=$('galList');list.innerHTML='';
- GALLERY.forEach((G,i)=>{const row=document.createElement('div');row.className='p5row'+(i===S.galSel?' sel':'');
-  row.innerHTML='<span class="star">★</span><span class="nm"></span><span class="badge">VIEWED</span>';
+/* ---------------- gallery (built-ins + your uploads) ---------------- */
+function renderGallery(){const items=galleryItems();const list=$('galList');list.innerHTML='';
+ if(S.galSel>=items.length)S.galSel=Math.max(0,items.length-1);
+ items.forEach((G,i)=>{const row=document.createElement('div');row.className='p5row'+(i===S.galSel?' sel':'');
+  row.innerHTML='<span class="star">'+(G.builtin?'★':'🖼')+'</span><span class="nm"></span><span class="mini">'+(G.builtin?'POSTER':fmtSize(G.rec.size))+'</span><span class="badge">'+(G.builtin?'BUILT-IN':'YOURS')+'</span>';
   row.querySelector('.nm').textContent=G.name;
   row.addEventListener('click',()=>{S.galSel=i;renderGallery();sfx('hover')});
   list.appendChild(row);});
- const G=GALLERY[S.galSel];
+ const G=items[S.galSel];
  $('galDescT').textContent=G.name;$('galDescD').textContent=G.desc;
- const cv=$('galCardCv');drawPoster(cv.getContext('2d'),cv.width,cv.height,G.kind,7+S.galSel*13);
+ $('galDelete').style.display=G.builtin?'none':'';
+ $('galExport').textContent=G.builtin?'⬇ EXPORT PNG':'⬇ EXPORT ORIGINAL';
+ $('galCardBadge').textContent=G.builtin?'VIEWED':'YOUR PRINT';
+ const cv=$('galCardCv'),g=cv.getContext('2d');
+ if(G.builtin)drawPoster(g,cv.width,cv.height,G.kind,7+S.galSel*13);
+ else drawCover(g,G.rec.img,cv.width,cv.height);
  $('galCardCap').textContent=G.name;
  const strip=$('galThumbs');strip.innerHTML='';
- const spots=[[0,0,-6],[62,4,5],[2,62,4],[66,66,-5]];
- let si=0;
- GALLERY.forEach((g2,i)=>{if(i===S.galSel||si>=4)return;
+ const spots=[[0,0,-6],[62,4,5],[2,62,4],[66,66,-5]];let si=0;
+ items.forEach((g2,i)=>{if(i===S.galSel||si>=4)return;
   const th=document.createElement('div');th.className='th';const sp=spots[si%4];
   th.style.left=sp[0]+'%';th.style.top=sp[1]+'%';th.style.transform='rotate('+sp[2]+'deg)';
-  const cv2=document.createElement('canvas');cv2.width=160;cv2.height=100;
-  drawPoster(cv2.getContext('2d'),160,100,g2.kind,7+i*13);th.appendChild(cv2);strip.appendChild(th);si++;});}
-$('galPrev').addEventListener('click',()=>{S.galSel=(S.galSel-1+GALLERY.length)%GALLERY.length;renderGallery();sfx('hover')});
-$('galNext').addEventListener('click',()=>{S.galSel=(S.galSel+1)%GALLERY.length;renderGallery();sfx('hover')});
-$('galZoom').addEventListener('click',()=>{const G=GALLERY[S.galSel];const cv=$('zoomCv');
- drawPoster(cv.getContext('2d'),cv.width,cv.height,G.kind,7+S.galSel*13);
+  const cv2=document.createElement('canvas');cv2.width=160;cv2.height=100;const gg=cv2.getContext('2d');
+  if(g2.builtin)drawPoster(gg,160,100,g2.kind,7+i*13);else drawCover(gg,g2.rec.img,160,100);
+  th.appendChild(cv2);strip.appendChild(th);si++;});
+ const sel=list.children[S.galSel];if(sel&&sel.scrollIntoView)sel.scrollIntoView({block:'nearest'});}
+$('galPrev').addEventListener('click',()=>{listNav(-1)});
+$('galNext').addEventListener('click',()=>{listNav(1)});
+$('galZoom').addEventListener('click',()=>{const items=galleryItems();const G=items[S.galSel];if(!G)return;
+ const cv=$('zoomCv'),g=cv.getContext('2d');
+ if(G.builtin)drawPoster(g,cv.width,cv.height,G.kind,7+S.galSel*13);
+ else drawCover(g,G.rec.img,cv.width,cv.height);
  openPanel('zoomPanel');});
-$('galExport').addEventListener('click',()=>{const G=GALLERY[S.galSel];
- const cv=document.createElement('canvas');cv.width=960;cv.height=600;
- drawPoster(cv.getContext('2d'),960,600,G.kind,7+S.galSel*13);
- const a=document.createElement('a');a.href=cv.toDataURL('image/png');a.download=G.name.replace(/[^\w]+/g,'_')+'.png';a.click();
- toast('Poster exported as PNG','ok');sfx('confirm')});
+$('galExport').addEventListener('click',()=>{const items=galleryItems();const G=items[S.galSel];if(!G)return;
+ if(G.builtin){const cv=document.createElement('canvas');cv.width=960;cv.height=600;
+  drawPoster(cv.getContext('2d'),960,600,G.kind,7+S.galSel*13);
+  const a=document.createElement('a');a.href=cv.toDataURL('image/png');a.download=G.name.replace(/[^\w]+/g,'_')+'.png';a.click();
+ }else{const ext=(G.rec.blob.type.split('/')[1]||'png').replace('jpeg','jpg');
+  const a=document.createElement('a');a.href=G.rec.url;a.download=G.name.replace(/[^\w\- ]+/g,'_')+'.'+ext;a.click();}
+ toast('Print exported','ok');sfx('confirm')});
+$('galDelete').addEventListener('click',async()=>{const items=galleryItems();const G=items[S.galSel];
+ if(!G||G.builtin)return;const rec=G.rec;
+ S.images=S.images.filter(x=>x.id!==rec.id);await dbDel('images',rec.id);
+ rebuildGalleryWall();renderGallery();checkAwards();sfx('error');
+ toast('Print removed: '+rec.title,'warn',6000,{label:'UNDO',fn:async()=>{
+  await loadImageRec(rec);S.images.push(rec);
+  await dbPut('images',{id:rec.id,title:rec.title,blob:rec.blob,size:rec.size,added:rec.added});
+  rebuildGalleryWall();renderGallery();toast('Print re-hung on the wall','ok')}});
+ if(rec.url)setTimeout(()=>{if(!S.images.some(x=>x.id===rec.id))URL.revokeObjectURL(rec.url)},6500);});
 
 /* ---------------- awards ---------------- */
 function renderAwards(){const list=$('awardList');list.innerHTML='';
  AWARDS.forEach((A,i)=>{const done=S.awards.has(A.id);const cur=Math.min(A.get(),A.goal);
   const row=document.createElement('div');row.className='p5row'+(i===S.awSel?' sel':'');
-  row.innerHTML='<span class="star">★</span><span class="nm"></span><span class="mini">'+cur+'/'+A.goal+'</span><span class="badge">'+(done?'CLEARED':'+'+A.reward+' P')+'</span>';
+  row.innerHTML='<span class="star">★</span><span class="nm"></span><span class="mini">'+(A.pct?cur+'%':cur+'/'+A.goal)+'</span><span class="badge">'+(done?'CLEARED':'+'+A.reward+' P')+'</span>';
   row.querySelector('.nm').textContent=A.name;
   row.addEventListener('click',()=>{S.awSel=i;renderAwards();sfx('hover')});
   list.appendChild(row);});
  const A=AWARDS[S.awSel],done=S.awards.has(A.id),cur=Math.min(A.get(),A.goal);
  $('awDescT').textContent=A.cond;
- $('awDescD').textContent='Reward: '+A.reward+' P coins. Progress is tracked automatically as you explore, summon, read and listen.';
- $('awState').textContent=done?'CLEARED ★ '+cur+'/'+A.goal:'IN PROGRESS — '+cur+'/'+A.goal;
+ $('awDescD').textContent='Reward: '+A.reward+' P coins. Reading feats update live from your scroll depth in the reader — no manual claiming.';
+ $('awState').textContent=done?'CLEARED ★ '+(A.pct?cur+'%':cur+'/'+A.goal):'IN PROGRESS — '+(A.pct?cur+'%':cur+'/'+A.goal);
  const cv=$('awardCv'),g=cv.getContext('2d');
  g.fillStyle='#0a0f2e';g.fillRect(0,0,400,400);
  g.fillStyle='#e60012';g.beginPath();g.moveTo(0,400);g.lineTo(400,120);g.lineTo(400,400);g.fill();
  star(g,200,190,150,done?'#ffd400':'#2a3a7a');star(g,200,190,100,'#050508');
  g.fillStyle=done?'#ffd400':'#5a6aaa';g.font='900 90px Anton,sans-serif';g.textAlign='center';g.fillText(String(S.awSel+1),200,222);
  if(done){star(g,80,80,20,'#fff');star(g,330,90,14,'#fff');star(g,320,320,18,'#fff');}
- $('awardCap').textContent=A.name+(done?' — CLEARED':'');}
+ $('awardCap').textContent=A.name+(done?' — CLEARED':'');
+ const sel=list.children[S.awSel];if(sel&&sel.scrollIntoView)sel.scrollIntoView({block:'nearest'});}
 
 /* ---------------- settings ---------------- */
 function syncQChips(){document.querySelectorAll('[data-q]').forEach(c=>c.classList.toggle('on',c.dataset.q===S.quality))}
@@ -1479,12 +1618,13 @@ $('tglInvert').addEventListener('click',()=>{S.invertY=!S.invertY;$('tglInvert')
 $('tglMotion').addEventListener('click',()=>{S.reduced=!S.reduced;$('tglMotion').classList.toggle('on',S.reduced);document.body.classList.toggle('reduced',S.reduced);sfx('hover');persistMeta()});
 $('tglFps').addEventListener('click',()=>{S.showFps=!S.showFps;$('tglFps').classList.toggle('on',S.showFps);$('fpsTag').style.display=S.showFps?'':'none';sfx('hover');persistMeta()});
 $('sensBar').addEventListener('input',e=>{S.sens=e.target.value/100;$('sensVal').textContent=S.sens.toFixed(1)+'×';persistMeta()});
-$('wipeBtn').addEventListener('click',async()=>{if(!confirm('Reset the entire local archive, playlist and save record?'))return;
+$('wipeBtn').addEventListener('click',async()=>{if(!confirm('Reset the entire vault: volumes, tracks, prints, awards and save?'))return;
  for(const f of S.files)await dbDel('files',f.id);
  for(const t of S.tracks)await dbDel('audio',t.id);
+ for(const im of S.images){await dbDel('images',im.id);if(im.url)URL.revokeObjectURL(im.url);}
  await dbDel('meta','save');await dbDel('meta','prefs');await dbDel('meta','seeded');location.reload();});
 
-/* ---------------- save ---------------- */
+/* ---------------- save slot ---------------- */
 async function refreshSaveInfo(){const rec=await dbGet('meta','save');
  if(rec){const d=new Date(rec.v.time);
   $('saveInfo').innerHTML='RECORDED — '+d.toLocaleDateString()+' '+d.toLocaleTimeString()+'<br>POSITION ('+rec.v.x.toFixed(1)+', '+rec.v.z.toFixed(1)+') · '+rec.v.zone+'<br>VOLUMES: '+S.files.length+' · P: '+rec.v.coins+' · MEMOS: '+rec.v.lore+'/'+LORE.length;}
@@ -1501,11 +1641,72 @@ $('loadSave').addEventListener('click',async()=>{const rec=await dbGet('meta','s
  closePanel();sfx('confirm');toast('↺ Record loaded — welcome back','ok');});
 $('clearSave').addEventListener('click',async()=>{await dbDel('meta','save');refreshSaveInfo();sfx('back');toast('Save slot cleared','warn')});
 
+/* ---------------- persistent vault + pack export/import ---------------- */
+function refreshVault(){
+ const bytes=S.files.reduce((a,f)=>a+f.size,0)+S.tracks.reduce((a,t)=>a+t.size,0)+S.images.reduce((a,i)=>a+i.size,0);
+ const readPct=Math.round(totalRead()*100);
+ $('vaultInfo').innerHTML='STATUS: <b style="color:'+(S.persistGranted?'var(--green)':'var(--gold)')+'">'+(S.persistGranted?'PERSISTENT ✓ (eviction-protected)':'BEST-EFFORT (standard browser storage)')+'</b><br>'+
+  S.files.length+' volumes · '+S.tracks.length+' tracks · '+S.images.length+' prints · '+fmtSize(bytes)+'<br>'+
+  'TOTAL READING DEPTH: '+readPct+'% · '+finishedCount()+' finished · '+S.awards.size+'/'+AWARDS.length+' awards';}
+function blobToB64(blob){return new Promise((res,rej)=>{const r=new FileReader();
+ r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=()=>rej(r.error);r.readAsDataURL(blob);});}
+function b64ToBlob(b64,mime){const bin=atob(b64);const arr=new Uint8Array(bin.length);
+ for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);return new Blob([arr],{type:mime||'application/octet-stream'});}
+$('exportPack').addEventListener('click',async()=>{
+ try{sfx('save');toast('Packing the vault…','info',2500);
+  const pack={app:'thieves-den',v:2,exported:Date.now(),files:[],audio:[],images:[],
+   meta:{coins:S.coins,awards:[...S.awards],lore:[...S.loreFound],stats:S.stats}};
+  for(const f of S.files)pack.files.push({id:f.id,title:f.title,jp:f.jp,wing:f.wing,tier:f.tier,pages:f.pages,size:f.size,added:f.added,order:f.order,scroll:f.scroll||0,zoom:f.zoom||1,progress:f.progress||0,mime:f.blob.type,b64:await blobToB64(f.blob)});
+  for(const t of S.tracks)pack.audio.push({id:t.id,title:t.title,size:t.size,added:t.added,mime:t.blob.type,b64:await blobToB64(t.blob)});
+  for(const im of S.images)pack.images.push({id:im.id,title:im.title,size:im.size,added:im.added,mime:im.blob.type,b64:await blobToB64(im.blob)});
+  const blob=new Blob([JSON.stringify(pack)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;
+  a.download='thieves-den-vault-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),5000);
+  toast('⬇ Vault pack exported — keep it safe or import on another device','ok',6000);
+ }catch(err){toast('Export failed: '+err,'warn');sfx('error')}});
+$('importPack').addEventListener('click',()=>$('packInput').click());
+$('packInput').addEventListener('change',async e=>{
+ const file=e.target.files[0];e.target.value='';if(!file)return;
+ try{toast('Reading pack…','info',2500);
+  const pack=JSON.parse(await file.text());
+  if(pack.app!=='thieves-den'||!Array.isArray(pack.files))throw new Error('Not a Thieves Den pack');
+  let nf=0,na=0,ni=0;
+  for(const r of pack.files){if(S.files.some(x=>x.id===r.id))continue;
+   const blob=b64ToBlob(r.b64,r.mime||'text/html');const text=await blob.text();
+   const rec={id:r.id,title:r.title,jp:r.jp||'',wing:WINGS[r.wing]?r.wing:'general',tier:r.tier||'FIELD',pages:r.pages||0,
+    size:blob.size,blob,text,added:r.added||Date.now(),order:S.files.length,scroll:r.scroll||0,zoom:r.zoom||1,progress:r.progress||0};
+   await dbPut('files',rec);S.files.push(rec);nf++;}
+  for(const r of pack.audio){if(S.tracks.some(x=>x.id===r.id))continue;
+   const blob=b64ToBlob(r.b64,r.mime||'audio/mpeg');
+   const rec={id:r.id,title:r.title,blob,size:blob.size,added:r.added||Date.now()};
+   await dbPut('audio',rec);S.tracks.push(rec);na++;}
+  for(const r of pack.images){if(S.images.some(x=>x.id===r.id))continue;
+   const blob=b64ToBlob(r.b64,r.mime||'image/png');
+   const rec={id:r.id,title:r.title,blob,size:blob.size,added:r.added||Date.now()};
+   const ok=await loadImageRec(rec);if(!ok)continue;
+   await dbPut('images',{id:rec.id,title:rec.title,blob:rec.blob,size:rec.size,added:rec.added});
+   S.images.push(rec);ni++;}
+  if(pack.meta){S.coins=Math.max(S.coins,pack.meta.coins||0);$('coinVal').textContent=S.coins;
+   (pack.meta.awards||[]).forEach(a=>S.awards.add(a));
+   (pack.meta.lore||[]).forEach(l=>S.loreFound.add(l));
+   if(pack.meta.stats){['reads','dashes','summons','plays'].forEach(k=>{S.stats[k]=Math.max(S.stats[k]||0,pack.meta.stats[k]||0)})}}
+  S.files.sort((a,b)=>a.order-b.order);S.files.forEach((f,i)=>f.order=i);
+  rebuildBooks();rebuildGalleryWall();renderCase();renderTracks();renderGallery();renderAwards();
+  checkAwards();persistMeta();refreshVault();sfx('summon');burstRune();
+  toast('⬆ Pack imported: '+nf+' volumes · '+na+' tracks · '+ni+' prints','ok',6500);
+ }catch(err){toast('Import failed: '+err.message,'warn',5000);sfx('error')}});
+
 /* ---------------- prefs ---------------- */
 let prefTimer=null;
-function persistMeta(){clearTimeout(prefTimer);prefTimer=setTimeout(()=>{
- dbPut('meta',{k:'prefs',v:{quality:S.quality,invertY:S.invertY,reduced:S.reduced,sens:S.sens,showFps:S.showFps,
-  volume:S.volume,muted:S.muted,loop:S.loop,shuffle:S.shuffle,lore:[...S.loreFound],awards:[...S.awards],coins:S.coins,stats:S.stats}});},400);}
+function prefsPayload(){return {k:'prefs',v:{quality:S.quality,invertY:S.invertY,reduced:S.reduced,sens:S.sens,showFps:S.showFps,
+ volume:S.volume,muted:S.muted,loop:S.loop,shuffle:S.shuffle,lore:[...S.loreFound],awards:[...S.awards],coins:S.coins,stats:S.stats}};}
+function persistMeta(){clearTimeout(prefTimer);prefTimer=setTimeout(()=>{dbPut('meta',prefsPayload()).catch(()=>{});},400);}
+function flushNow(){clearTimeout(prefTimer);
+ if(db){dbPut('meta',prefsPayload()).catch(()=>{});
+  if(S.readerFile)dbPut('files',S.readerFile).catch(()=>{});}}
+addEventListener('beforeunload',flushNow);
+addEventListener('pagehide',flushNow);
 async function loadPrefs(){const p=await dbGet('meta','prefs');if(!p)return;const v=p.v;
  S.quality=v.quality||'balanced';S.invertY=!!v.invertY;S.reduced=!!v.reduced;S.sens=v.sens||1;
  S.showFps=v.showFps!==false;S.volume=(v.volume!==undefined?v.volume:.7);S.muted=!!v.muted;S.loop=!!v.loop;S.shuffle=!!v.shuffle;
@@ -1524,8 +1725,12 @@ async function loadPrefs(){const p=await dbGet('meta','prefs');if(!p)return;cons
 /* ---------------- boot ---------------- */
 async function boot(){
  await openDB();
+ if(navigator.storage&&navigator.storage.persisted){try{S.persistGranted=await navigator.storage.persisted()}catch(e){}}
  S.files=(await dbAll('files')).sort((a,b)=>a.order-b.order);
  S.tracks=await dbAll('audio');
+ const rawImgs=await dbAll('images');
+ await Promise.all(rawImgs.map(loadImageRec));
+ S.images=rawImgs.filter(r=>r.img);
  const seeded=await dbGet('meta','seeded');
  if(!seeded&&!S.files.length){
   for(let i=0;i<SEEDS.length;i++){const s=SEEDS[i];
@@ -1536,7 +1741,7 @@ async function boot(){
    await dbPut('files',rec);S.files.push(rec);}
   await dbPut('meta',{k:'seeded',v:true});}
  initWorld();await loadPrefs();
- rebuildBooks();renderCase();renderTracks();renderGallery();renderAwards();
+ rebuildBooks();renderCase();renderTracks();renderGallery();renderAwards();refreshVault();
  const now=new Date();
  $('hudDay').textContent=(now.getMonth()+1)+'/'+now.getDate();
  $('hudDow').textContent=['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'][now.getDay()];
@@ -1545,12 +1750,13 @@ async function boot(){
  loop();}
 $('pressStart').addEventListener('click',()=>{
  ensureAudio();if(AC.state==='suspended')AC.resume();
+ if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().then(g=>{S.persistGranted=g;refreshVault();}).catch(()=>{});}
  S.started=true;$('titleScreen').classList.add('gone');
  setTimeout(()=>$('titleScreen').remove(),500);
  const sl=$('slash');sl.style.display='block';setTimeout(()=>sl.style.display='none',650);
  startAmbience();S.playing=true;syncDeck();sfx('confirm');
- setTimeout(()=>toast('Welcome to the Thieves Den. Follow the red line — press E at glowing stations.','info',5200),700);
- setTimeout(()=>toast('Tip: drag an .html or .mp3 onto the window anytime. Awards pay P coins.','info',5600),3600);});
+ setTimeout(()=>toast('Welcome back to the Den. Hold RMB to dash, press F at glowing stations.','info',5200),700);
+ setTimeout(()=>toast('In lists: W/S or mouse wheel to move, F/Enter to confirm. Everything saves to the vault instantly.','info',6200),3600);});
 boot().catch(err=>{document.body.innerHTML='<div style="padding:40px;font-family:sans-serif;color:#fff"><h2 style="color:#e60012">DEN FAILED TO OPEN</h2><p>'+String(err)+'</p><p>IndexedDB or WebGL may be blocked in this browser context.</p></div>';});
 </script>
 </body>
