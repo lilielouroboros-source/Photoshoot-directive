@@ -1761,3 +1761,209 @@ boot().catch(err=>{document.body.innerHTML='<div style="padding:40px;font-family
 </script>
 </body>
 </html>
+ else drawCover(g,G.rec.img,cv.width,cv.height);
+ $('galCardCap').textContent=G.name;
+ const strip=$('galThumbs');strip.innerHTML='';
+ const spots=[[0,0,-6],[62,4,5],[2,62,4],[66,66,-5]];let si=0;
+ items.forEach((g2,i)=>{if(i===S.galSel||si>=4)return;
+  const th=document.createElement('div');th.className='th';const sp=spots[si%4];
+  th.style.left=sp[0]+'%';th.style.top=sp[1]+'%';th.style.transform='rotate('+sp[2]+'deg)';
+  const cv2=document.createElement('canvas');cv2.width=160;cv2.height=100;const gg=cv2.getContext('2d');
+  if(g2.builtin)drawPoster(gg,160,100,g2.kind,7+i*13);else drawCover(gg,g2.rec.img,160,100);
+  th.appendChild(cv2);strip.appendChild(th);si++;});
+ const sel=list.children[S.galSel];if(sel&&sel.scrollIntoView)sel.scrollIntoView({block:'nearest'});}
+$('galPrev').addEventListener('click',()=>{listNav(-1)});
+$('galNext').addEventListener('click',()=>{listNav(1)});
+$('galZoom').addEventListener('click',()=>{const items=galleryItems();const G=items[S.galSel];if(!G)return;
+ const cv=$('zoomCv'),g=cv.getContext('2d');
+ if(G.builtin)drawPoster(g,cv.width,cv.height,G.kind,7+S.galSel*13);
+ else drawCover(g,G.rec.img,cv.width,cv.height);
+ openPanel('zoomPanel');});
+$('galExport').addEventListener('click',()=>{const items=galleryItems();const G=items[S.galSel];if(!G)return;
+ if(G.builtin){const cv=document.createElement('canvas');cv.width=960;cv.height=600;
+  drawPoster(cv.getContext('2d'),960,600,G.kind,7+S.galSel*13);
+  const a=document.createElement('a');a.href=cv.toDataURL('image/png');a.download=G.name.replace(/[^\w]+/g,'_')+'.png';a.click();
+ }else{const ext=(G.rec.blob.type.split('/')[1]||'png').replace('jpeg','jpg');
+  const a=document.createElement('a');a.href=G.rec.url;a.download=G.name.replace(/[^\w\- ]+/g,'_')+'.'+ext;a.click();}
+ toast('Print exported','ok');sfx('confirm')});
+$('galDelete').addEventListener('click',async()=>{const items=galleryItems();const G=items[S.galSel];
+ if(!G||G.builtin)return;const rec=G.rec;
+ S.images=S.images.filter(x=>x.id!==rec.id);await dbDel('images',rec.id);
+ rebuildGalleryWall();renderGallery();checkAwards();sfx('error');
+ toast('Print removed: '+rec.title,'warn',6000,{label:'UNDO',fn:async()=>{
+  await loadImageRec(rec);S.images.push(rec);
+  await dbPut('images',{id:rec.id,title:rec.title,blob:rec.blob,size:rec.size,added:rec.added});
+  rebuildGalleryWall();renderGallery();toast('Print re-hung on the wall','ok')}});
+ if(rec.url)setTimeout(()=>{if(!S.images.some(x=>x.id===rec.id))URL.revokeObjectURL(rec.url)},6500);});
+
+/* ---------------- awards ---------------- */
+function renderAwards(){const list=$('awardList');list.innerHTML='';
+ AWARDS.forEach((A,i)=>{const done=S.awards.has(A.id);const cur=Math.min(A.get(),A.goal);
+  const row=document.createElement('div');row.className='p5row'+(i===S.awSel?' sel':'');
+  row.innerHTML='<span class="star">★</span><span class="nm"></span><span class="mini">'+(A.pct?cur+'%':cur+'/'+A.goal)+'</span><span class="badge">'+(done?'CLEARED':'+'+A.reward+' P')+'</span>';
+  row.querySelector('.nm').textContent=A.name;
+  row.addEventListener('click',()=>{S.awSel=i;renderAwards();sfx('hover')});
+  list.appendChild(row);});
+ const A=AWARDS[S.awSel],done=S.awards.has(A.id),cur=Math.min(A.get(),A.goal);
+ $('awDescT').textContent=A.cond;
+ $('awDescD').textContent='Reward: '+A.reward+' P coins. Reading feats update live from your scroll depth in the reader — no manual claiming.';
+ $('awState').textContent=done?'CLEARED ★ '+(A.pct?cur+'%':cur+'/'+A.goal):'IN PROGRESS — '+(A.pct?cur+'%':cur+'/'+A.goal);
+ const cv=$('awardCv'),g=cv.getContext('2d');
+ g.fillStyle='#0a0f2e';g.fillRect(0,0,400,400);
+ g.fillStyle='#e60012';g.beginPath();g.moveTo(0,400);g.lineTo(400,120);g.lineTo(400,400);g.fill();
+ star(g,200,190,150,done?'#ffd400':'#2a3a7a');star(g,200,190,100,'#050508');
+ g.fillStyle=done?'#ffd400':'#5a6aaa';g.font='900 90px Anton,sans-serif';g.textAlign='center';g.fillText(String(S.awSel+1),200,222);
+ if(done){star(g,80,80,20,'#fff');star(g,330,90,14,'#fff');star(g,320,320,18,'#fff');}
+ $('awardCap').textContent=A.name+(done?' — CLEARED':'');
+ const sel=list.children[S.awSel];if(sel&&sel.scrollIntoView)sel.scrollIntoView({block:'nearest'});}
+
+/* ---------------- settings ---------------- */
+function syncQChips(){document.querySelectorAll('[data-q]').forEach(c=>c.classList.toggle('on',c.dataset.q===S.quality))}
+document.querySelectorAll('[data-q]').forEach(c=>c.addEventListener('click',()=>{S.quality=c.dataset.q;applyQuality();syncQChips();sfx('confirm');persistMeta()}));
+$('tglInvert').addEventListener('click',()=>{S.invertY=!S.invertY;$('tglInvert').classList.toggle('on',S.invertY);sfx('hover');persistMeta()});
+$('tglMotion').addEventListener('click',()=>{S.reduced=!S.reduced;$('tglMotion').classList.toggle('on',S.reduced);document.body.classList.toggle('reduced',S.reduced);sfx('hover');persistMeta()});
+$('tglFps').addEventListener('click',()=>{S.showFps=!S.showFps;$('tglFps').classList.toggle('on',S.showFps);$('fpsTag').style.display=S.showFps?'':'none';sfx('hover');persistMeta()});
+$('sensBar').addEventListener('input',e=>{S.sens=e.target.value/100;$('sensVal').textContent=S.sens.toFixed(1)+'×';persistMeta()});
+$('wipeBtn').addEventListener('click',async()=>{if(!confirm('Reset the entire vault: volumes, tracks, prints, awards and save?'))return;
+ for(const f of S.files)await dbDel('files',f.id);
+ for(const t of S.tracks)await dbDel('audio',t.id);
+ for(const im of S.images){await dbDel('images',im.id);if(im.url)URL.revokeObjectURL(im.url);}
+ await dbDel('meta','save');await dbDel('meta','prefs');await dbDel('meta','seeded');location.reload();});
+
+/* ---------------- save slot ---------------- */
+async function refreshSaveInfo(){const rec=await dbGet('meta','save');
+ if(rec){const d=new Date(rec.v.time);
+  $('saveInfo').innerHTML='RECORDED — '+d.toLocaleDateString()+' '+d.toLocaleTimeString()+'<br>POSITION ('+rec.v.x.toFixed(1)+', '+rec.v.z.toFixed(1)+') · '+rec.v.zone+'<br>VOLUMES: '+S.files.length+' · P: '+rec.v.coins+' · MEMOS: '+rec.v.lore+'/'+LORE.length;}
+ else $('saveInfo').innerHTML='NO RECORD FOUND.<br>Write your position, camera, coins and reading progress.';}
+$('writeSave').addEventListener('click',async()=>{
+ for(const f of S.files)await dbPut('files',f);
+ await dbPut('meta',{k:'save',v:{time:Date.now(),x:player.position.x,z:player.position.z,yaw:camYaw,pitch:camPitch,dist:camDist,
+  zone:curZone?curZone.name:'—',lore:S.loreFound.size,loreArr:[...S.loreFound],coins:S.coins}});
+ refreshSaveInfo();sfx('save');toast('✎ Phantom log recorded','ok');});
+$('loadSave').addEventListener('click',async()=>{const rec=await dbGet('meta','save');
+ if(!rec){toast('No record to load','warn');sfx('error');return}
+ player.position.set(rec.v.x,0,rec.v.z);camYaw=rec.v.yaw;camPitch=rec.v.pitch;camDist=rec.v.dist;
+ S.loreFound=new Set(rec.v.loreArr||[]);S.coins=rec.v.coins||0;$('coinVal').textContent=S.coins;
+ closePanel();sfx('confirm');toast('↺ Record loaded — welcome back','ok');});
+$('clearSave').addEventListener('click',async()=>{await dbDel('meta','save');refreshSaveInfo();sfx('back');toast('Save slot cleared','warn')});
+
+/* ---------------- persistent vault + pack export/import ---------------- */
+function refreshVault(){
+ const bytes=S.files.reduce((a,f)=>a+f.size,0)+S.tracks.reduce((a,t)=>a+t.size,0)+S.images.reduce((a,i)=>a+i.size,0);
+ const readPct=Math.round(totalRead()*100);
+ $('vaultInfo').innerHTML='STATUS: <b style="color:'+(S.persistGranted?'var(--green)':'var(--gold)')+'">'+(S.persistGranted?'PERSISTENT ✓ (eviction-protected)':'BEST-EFFORT (standard browser storage)')+'</b><br>'+
+  S.files.length+' volumes · '+S.tracks.length+' tracks · '+S.images.length+' prints · '+fmtSize(bytes)+'<br>'+
+  'TOTAL READING DEPTH: '+readPct+'% · '+finishedCount()+' finished · '+S.awards.size+'/'+AWARDS.length+' awards';}
+function blobToB64(blob){return new Promise((res,rej)=>{const r=new FileReader();
+ r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=()=>rej(r.error);r.readAsDataURL(blob);});}
+function b64ToBlob(b64,mime){const bin=atob(b64);const arr=new Uint8Array(bin.length);
+ for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);return new Blob([arr],{type:mime||'application/octet-stream'});}
+$('exportPack').addEventListener('click',async()=>{
+ try{sfx('save');toast('Packing the vault…','info',2500);
+  const pack={app:'thieves-den',v:2,exported:Date.now(),files:[],audio:[],images:[],
+   meta:{coins:S.coins,awards:[...S.awards],lore:[...S.loreFound],stats:S.stats}};
+  for(const f of S.files)pack.files.push({id:f.id,title:f.title,jp:f.jp,wing:f.wing,tier:f.tier,pages:f.pages,size:f.size,added:f.added,order:f.order,scroll:f.scroll||0,zoom:f.zoom||1,progress:f.progress||0,mime:f.blob.type,b64:await blobToB64(f.blob)});
+  for(const t of S.tracks)pack.audio.push({id:t.id,title:t.title,size:t.size,added:t.added,mime:t.blob.type,b64:await blobToB64(t.blob)});
+  for(const im of S.images)pack.images.push({id:im.id,title:im.title,size:im.size,added:im.added,mime:im.blob.type,b64:await blobToB64(im.blob)});
+  const blob=new Blob([JSON.stringify(pack)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;
+  a.download='thieves-den-vault-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),5000);
+  toast('⬇ Vault pack exported — keep it safe or import on another device','ok',6000);
+ }catch(err){toast('Export failed: '+err,'warn');sfx('error')}});
+$('importPack').addEventListener('click',()=>$('packInput').click());
+$('packInput').addEventListener('change',async e=>{
+ const file=e.target.files[0];e.target.value='';if(!file)return;
+ try{toast('Reading pack…','info',2500);
+  const pack=JSON.parse(await file.text());
+  if(pack.app!=='thieves-den'||!Array.isArray(pack.files))throw new Error('Not a Thieves Den pack');
+  let nf=0,na=0,ni=0;
+  for(const r of pack.files){if(S.files.some(x=>x.id===r.id))continue;
+   const blob=b64ToBlob(r.b64,r.mime||'text/html');const text=await blob.text();
+   const rec={id:r.id,title:r.title,jp:r.jp||'',wing:WINGS[r.wing]?r.wing:'general',tier:r.tier||'FIELD',pages:r.pages||0,
+    size:blob.size,blob,text,added:r.added||Date.now(),order:S.files.length,scroll:r.scroll||0,zoom:r.zoom||1,progress:r.progress||0};
+   await dbPut('files',rec);S.files.push(rec);nf++;}
+  for(const r of pack.audio){if(S.tracks.some(x=>x.id===r.id))continue;
+   const blob=b64ToBlob(r.b64,r.mime||'audio/mpeg');
+   const rec={id:r.id,title:r.title,blob,size:blob.size,added:r.added||Date.now()};
+   await dbPut('audio',rec);S.tracks.push(rec);na++;}
+  for(const r of pack.images){if(S.images.some(x=>x.id===r.id))continue;
+   const blob=b64ToBlob(r.b64,r.mime||'image/png');
+   const rec={id:r.id,title:r.title,blob,size:blob.size,added:r.added||Date.now()};
+   const ok=await loadImageRec(rec);if(!ok)continue;
+   await dbPut('images',{id:rec.id,title:rec.title,blob:rec.blob,size:rec.size,added:rec.added});
+   S.images.push(rec);ni++;}
+  if(pack.meta){S.coins=Math.max(S.coins,pack.meta.coins||0);$('coinVal').textContent=S.coins;
+   (pack.meta.awards||[]).forEach(a=>S.awards.add(a));
+   (pack.meta.lore||[]).forEach(l=>S.loreFound.add(l));
+   if(pack.meta.stats){['reads','dashes','summons','plays'].forEach(k=>{S.stats[k]=Math.max(S.stats[k]||0,pack.meta.stats[k]||0)})}}
+  S.files.sort((a,b)=>a.order-b.order);S.files.forEach((f,i)=>f.order=i);
+  rebuildBooks();rebuildGalleryWall();renderCase();renderTracks();renderGallery();renderAwards();
+  checkAwards();persistMeta();refreshVault();sfx('summon');burstRune();
+  toast('⬆ Pack imported: '+nf+' volumes · '+na+' tracks · '+ni+' prints','ok',6500);
+ }catch(err){toast('Import failed: '+err.message,'warn',5000);sfx('error')}});
+
+/* ---------------- prefs ---------------- */
+let prefTimer=null;
+function prefsPayload(){return {k:'prefs',v:{quality:S.quality,invertY:S.invertY,reduced:S.reduced,sens:S.sens,showFps:S.showFps,
+ volume:S.volume,muted:S.muted,loop:S.loop,shuffle:S.shuffle,lore:[...S.loreFound],awards:[...S.awards],coins:S.coins,stats:S.stats}};}
+function persistMeta(){clearTimeout(prefTimer);prefTimer=setTimeout(()=>{dbPut('meta',prefsPayload()).catch(()=>{});},400);}
+function flushNow(){clearTimeout(prefTimer);
+ if(db){dbPut('meta',prefsPayload()).catch(()=>{});
+  if(S.readerFile)dbPut('files',S.readerFile).catch(()=>{});}}
+addEventListener('beforeunload',flushNow);
+addEventListener('pagehide',flushNow);
+async function loadPrefs(){const p=await dbGet('meta','prefs');if(!p)return;const v=p.v;
+ S.quality=v.quality||'balanced';S.invertY=!!v.invertY;S.reduced=!!v.reduced;S.sens=v.sens||1;
+ S.showFps=v.showFps!==false;S.volume=(v.volume!==undefined?v.volume:.7);S.muted=!!v.muted;S.loop=!!v.loop;S.shuffle=!!v.shuffle;
+ S.loreFound=new Set(v.lore||[]);S.awards=new Set(v.awards||[]);S.coins=v.coins||0;S.stats=Object.assign({reads:0,dashes:0,summons:0,plays:0},v.stats||{});
+ $('coinVal').textContent=S.coins;
+ $('tglInvert').classList.toggle('on',S.invertY);
+ $('tglMotion').classList.toggle('on',S.reduced);document.body.classList.toggle('reduced',S.reduced);
+ $('tglFps').classList.toggle('on',S.showFps);$('fpsTag').style.display=S.showFps?'':'none';
+ $('sensBar').value=S.sens*100;$('sensVal').textContent=S.sens.toFixed(1)+'×';
+ $('volBar').value=S.volume*100;$('volVal').textContent=Math.round(S.volume*100);
+ $('muteBtn').classList.toggle('muted',S.muted);
+ $('muteBtn').innerHTML='<span>'+(S.muted?'♪ MUTED':'♪ SOUND ON')+'</span>';
+ syncQChips();applyQuality();
+ if(S.loreFound.size===LORE.length)stationRefs.rune.material.color.set(0xffd400);}
+
+/* ---------------- boot ---------------- */
+async function boot(){
+ await openDB();
+ if(navigator.storage&&navigator.storage.persisted){try{S.persistGranted=await navigator.storage.persisted()}catch(e){}}
+ S.files=(await dbAll('files')).sort((a,b)=>a.order-b.order);
+ S.tracks=await dbAll('audio');
+ const rawImgs=await dbAll('images');
+ await Promise.all(rawImgs.map(loadImageRec));
+ S.images=rawImgs.filter(r=>r.img);
+ const seeded=await dbGet('meta','seeded');
+ if(!seeded&&!S.files.length){
+  for(let i=0;i<SEEDS.length;i++){const s=SEEDS[i];
+   const text=seedDoc(s.title,s.jp,WINGS[s.wing].css,s.body);
+   const blob=new Blob([text],{type:'text/html'});
+   const rec={id:uid(),title:s.title,jp:s.jp,wing:s.wing,tier:s.tier,pages:s.pages,
+    size:blob.size,blob,text,added:Date.now()-i*1000,order:i,scroll:0,zoom:1,progress:0};
+   await dbPut('files',rec);S.files.push(rec);}
+  await dbPut('meta',{k:'seeded',v:true});}
+ initWorld();await loadPrefs();
+ rebuildBooks();renderCase();renderTracks();renderGallery();renderAwards();refreshVault();
+ const now=new Date();
+ $('hudDay').textContent=(now.getMonth()+1)+'/'+now.getDate();
+ $('hudDow').textContent=['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'][now.getDay()];
+ const hr=now.getHours();
+ $('hudPhase').textContent=hr<6?'DARK HOUR':hr<12?'MORNING':hr<17?'AFTER SCHOOL':hr<20?'EVENING':'NIGHT';
+ loop();}
+$('pressStart').addEventListener('click',()=>{
+ ensureAudio();if(AC.state==='suspended')AC.resume();
+ if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().then(g=>{S.persistGranted=g;refreshVault();}).catch(()=>{});}
+ S.started=true;$('titleScreen').classList.add('gone');
+ setTimeout(()=>$('titleScreen').remove(),500);
+ const sl=$('slash');sl.style.display='block';setTimeout(()=>sl.style.display='none',650);
+ startAmbience();S.playing=true;syncDeck();sfx('confirm');
+ setTimeout(()=>toast('Welcome back to the Den. Hold RMB to dash, press F at glowing stations.','info',5200),700);
+ setTimeout(()=>toast('In lists: W/S or mouse wheel to move, F/Enter to confirm. Everything saves to the vault instantly.','info',6200),3600);});
+boot().catch(err=>{document.body.innerHTML='<div style="padding:40px;font-family:sans-serif;color:#fff"><h2 style="color:#e60012">DEN FAILED TO OPEN</h2><p>'+String(err)+'</p><p>IndexedDB or WebGL may be blocked in this browser context.</p></div>';});
+</script>
+</body>
+</html>
